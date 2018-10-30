@@ -22,11 +22,17 @@ public:
     FaceRecognition(const parameters_FacDet &parameters, const string &path_to_landmark_model, const unsigned int size,
                     const double left_eye_after, const string &path_to_descriptor_model);
 
+
+    // Datos es una struct que va a utilizar el equipo 4.
+    
     // Caso 1
+    // Datos caso1(const Mat* image, dlib::full_object_detection shape)
 
     // Caso 2
+    // bool caso2(const Mat* image, dlib::full_object_detection shape, const string& matricula)
 
     // Caso 3
+    // bool caso3(const Mat* image, dlib::full_object_detection shape, const Datos& datos)
 
     ~FaceRecognition();
 

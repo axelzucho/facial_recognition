@@ -5,5 +5,5 @@
 #include "FaceRecognition.h"
 
 int main(){
-    
+
 }
