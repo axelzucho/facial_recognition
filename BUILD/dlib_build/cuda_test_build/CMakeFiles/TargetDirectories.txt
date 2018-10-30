@@ -1,0 +1,3 @@
+/home/axelzucho/Documents/Github/facial_recognition/BUILD/dlib_build/cuda_test_build/CMakeFiles/edit_cache.dir
+/home/axelzucho/Documents/Github/facial_recognition/BUILD/dlib_build/cuda_test_build/CMakeFiles/rebuild_cache.dir
+/home/axelzucho/Documents/Github/facial_recognition/BUILD/dlib_build/cuda_test_build/CMakeFiles/cuda_test.dir
