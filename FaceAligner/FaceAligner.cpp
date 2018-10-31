@@ -20,6 +20,14 @@ void FaceAligner::DetectAndAlign(const cv::Mat &image, const cv::Rect &face, cv:
     aligner_->AlignImage(shape, dlib_image, template_image);
 }
 
+void FaceAligner::Detect(const cv::Mat &image, const cv::Rect &face, dlib::full_object_detection &shape) {
+    face_detector_->GetFaceLandmark(image, extractor::opencv_rect_to_dlib(face), shape);
+}
+
+void FaceAligner::Align(const dlib::full_object_detection &shape, const cv::Mat &image, cv::Mat &template_image){
+    aligner_->AlignImage(shape,image,template_image);
+}
+
 FaceAligner::~FaceAligner() {
     delete(face_detector_);
     delete(aligner_);

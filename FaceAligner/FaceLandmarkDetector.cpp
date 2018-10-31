@@ -16,5 +16,6 @@ void FaceLandmarkDetector::GetFaceLandmark(const cv::Mat &image, const dlib::rec
                                            dlib::full_object_detection &shape) {
     dlib::array2d<dlib::bgr_pixel> dlib_image;
     assign_image(dlib_image, dlib::cv_image<dlib::bgr_pixel>(image));
-    shape = sp(dlib_image, face);
+
+    GetFaceLandmark(dlib_image, face, shape);
 }
