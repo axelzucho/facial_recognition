@@ -1,0 +1,6 @@
+/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/build/CMakeFiles/rebuild_cache.dir
+/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/build/CMakeFiles/fr.dir
+/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/build/CMakeFiles/edit_cache.dir
+/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/build/dlib_build/CMakeFiles/rebuild_cache.dir
+/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/build/dlib_build/CMakeFiles/dlib.dir
+/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/build/dlib_build/CMakeFiles/edit_cache.dir

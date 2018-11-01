@@ -8,7 +8,7 @@ project(fr)
 
 set(CMAKE_CXX_STANDARD 11)
 
-include(/home/axelzucho/Documents/dlib-19.15/dlib/cmake)
+include(/home/rodrigo/dlib-19.15/dlib/cmake)
 
 set(HEADERS FaceAligner/facial_extractor_tools.h FaceAligner/Aligner.h FaceAligner/FaceLandmarkDetector.h FaceAligner/FaceAligner.h FaceDescriptorExtractor/FaceDescriptorExtractor.h FaceDetection/FaceDetector_opt.h FaceRecognition.h
         )
@@ -35,7 +35,7 @@ set(fr_include /usr/local/include
 
 include_directories(${fr_include})
 
-add_executable(fr FaceDescriptorExtractor/main.cpp ${HEADERS} ${SOURCE})
+add_executable(fr main.cpp ${HEADERS} ${SOURCE})
 target_link_libraries(fr ${OpenCV_LIBS} dlib::dlib)
 
 
