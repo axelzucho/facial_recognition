@@ -73,6 +73,25 @@ namespace extractor {
         }
     }
 
+    void show_image_with_points(const dlib::full_object_detection &shape, const Mat &image) {
+        std::vector<image_window::overlay_circle> points;
+        image_window win;
+        win.set_size(image.cols, image.rows);
+        win.set_title("Detector");
+
+        while (!win.is_closed()) {
+            for (unsigned int n = 0; n < shape.num_parts(); n++) {
+                const point &pt = shape.part(n);
+                points.emplace_back(image_window::overlay_circle(pt, 10, dlib::rgb_pixel(255, 255, 0)));
+            }
+
+            win.clear_overlay();
+            win.set_image(dlib::cv_image<dlib::bgr_pixel>(image));
+            win.add_overlay(points);
+            //win.add_overlay(face_rectangle);
+        }
+    }
+
     void read_image(int argc, char **argv, string image_path, Mat *image) {
         if (argc > 1) {
             image_path = argv[1];

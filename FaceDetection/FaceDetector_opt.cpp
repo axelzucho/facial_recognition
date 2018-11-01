@@ -1,4 +1,7 @@
 #include "FaceDetector_opt.h"
+#include "../FaceAligner/facial_extractor_tools.h"
+#include <dlib/gui_widgets.h>
+#include <dlib/image_processing.h>
 
 using namespace cv;
 using namespace std;
@@ -153,7 +156,7 @@ void FaceDetector_opt::show_faces(Mat *img, vector<Rect> faces)
     rectangle(*img, pt1, pt2, Scalar(rectColor[0], rectColor[1], rectColor[2]));
   }
 
-
+  
   //Display window with image
   namedWindow("Face Detection", WINDOW_AUTOSIZE);//Generating window
   imshow("Face Detection", *img);//Showing image
@@ -195,6 +198,7 @@ void FaceDetector_opt::show_faces(Mat *img, vector<Rect> detected_faces, vector<
     //green
     rectangle(*img, pt1, pt2, Scalar(rectColor[1], rectColor[0], rectColor[2]));
   }
+
 
   //Display window with image
   namedWindow("Face Detection", WINDOW_AUTOSIZE);//Generating window
@@ -246,13 +250,66 @@ void FaceDetector_opt::show_faces(Mat *img, vector<Rect> detected_faces, vector<
 
   //red
   rectangle(*img, pt1, pt2, Scalar(rectColor[1], rectColor[2], rectColor[0]));
-
   //Display window with image
   namedWindow("Face Detection", WINDOW_AUTOSIZE);//Generating window
   imshow("Face Detection", *img);//Showing image
 
   return;
+  
 }
+
+void FaceDetector_opt::show_faces(Mat *img, vector<Rect> detected_faces, vector<Rect> real_faces, Rect largest_face, dlib::full_object_detection &shape)
+{
+  Point pt1, pt2;
+  vector <int> rectColor;
+
+  rectColor.push_back(255);
+  rectColor.push_back(0);
+  rectColor.push_back(0);
+
+  //Draw detected faces
+  for(size_t i=0; i<detected_faces.size(); i++)
+  {
+    //Drawing rectangle on image
+    pt1.x = detected_faces[i].x;
+    pt1.y = detected_faces[i].y;
+    pt2.x = detected_faces[i].x + detected_faces[i].width;
+    pt2.y = detected_faces[i].y + detected_faces[i].height;
+
+    //blue
+    rectangle(*img, pt1, pt2, Scalar(rectColor[0], rectColor[1], rectColor[2]));
+  }
+
+  //Draw real faces (after discarding false positives)
+  for(size_t i=0; i<real_faces.size(); i++)
+  {
+    //Drawing rectangle on image
+    pt1.x = real_faces[i].x;
+    pt1.y = real_faces[i].y;
+    pt2.x = real_faces[i].x + real_faces[i].width;
+    pt2.y = real_faces[i].y + real_faces[i].height;
+
+    //green
+    rectangle(*img, pt1, pt2, Scalar(rectColor[1], rectColor[0], rectColor[2]));
+  }
+
+  //Draw largest face
+  pt1.x = largest_face.x;
+  pt1.y = largest_face.y;
+  pt2.x = largest_face.x + largest_face.width;
+  pt2.y = largest_face.y + largest_face.height;
+
+  //red
+  rectangle(*img, pt1, pt2, Scalar(rectColor[1], rectColor[2], rectColor[0]));
+  
+  extractor::show_image_with_points(shape, *img);
+  //Display window with image
+  //namedWindow("Face Detection", WINDOW_AUTOSIZE);//Generating window
+  //imshow("Face Detection", *img);//Showing image
+
+  return;
+}
+
 
 vector<Rect> FaceDetector_opt::ignore_false_positives(Mat * img, vector<Rect> original_det_faces, int tolerance)
 {

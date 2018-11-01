@@ -1,4 +1,6 @@
 #include "parameters_FacDet.h"
+#include <dlib/gui_widgets.h>
+#include <dlib/image_processing.h>
 
 class FaceDetector_opt
 {
@@ -23,6 +25,8 @@ public:
   void show_faces(cv::Mat *img, std::vector<cv::Rect> detected_faces, std::vector<cv::Rect> real_faces);
 
   void show_faces(cv::Mat *img, std::vector<cv::Rect> detected_faces, std::vector<cv::Rect> real_faces, cv::Rect largest_face);
+
+void show_faces(cv::Mat *img, std::vector<cv::Rect> detected_faces, std::vector<cv::Rect> real_faces, cv::Rect largest_face, dlib::full_object_detection &shape);
 
   std::vector<cv::Rect> ignore_false_positives(cv::Mat * img, std::vector<cv::Rect> original_det_faces, int tolerance);
 

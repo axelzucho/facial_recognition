@@ -33,6 +33,7 @@ int main()
 	
   	FaceAligner face_transformer("/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceAligner/shape_predictor_5_face_landmarks.dat", 500, 0.3);
   	cv::Mat template_image;
+  	dlib::full_object_detection shape;
 
 	cv::VideoCapture video(0);
 	video.open(0);
@@ -46,28 +47,38 @@ int main()
 	{
 		cv::Mat frame;
 		video>> frame;
-		cv::imshow("Camara", frame);
+		temporal = detector.detect_faces(&frame);
+		real_faces = detector.ignore_false_positives(&frame, temporal, 2);
+		largest_face[0] = detector.get_largest_face(real_faces);
+		//detector.show_faces(&frame, temporal, real_faces, largest_face[0], shape);
+		detector.show_faces(&frame, temporal, real_faces, largest_face[0]);
+
+		
+		//cv::imshow("Camara", frame);
 		//cv::waitKey(1);
 		char Key_pressed=cv::waitKey(1);
 		switch(Key_pressed)
 		{
 			case '1':
 			std::cout << "1";
+			//face_transformer.Detect(frame, largest_face[0], shape);
 			cv::destroyAllWindows();
         	video.release();
         	flag = false;
-			temporal = detector.detect_faces(&frame);
+			/*temporal = detector.detect_faces(&frame);
 			real_faces = detector.ignore_false_positives(&frame, temporal, 2);
 			largest_face[0] = detector.get_largest_face(real_faces);
 			detector.show_faces(&frame, temporal, real_faces, largest_face[0]);
-			face_transformer.DetectAndAlign(frame, largest_face[0],template_image);
-			
+			face_transformer.Detect(frame, largest_face[0], shape);*/
+
+
 			cv::waitKey(0);
 			
 			break;
 
 			case '2':
 			std::cout << "2";
+			std:: cout << "Ingrese la matricula" << std::endl;
 			cv::destroyAllWindows();
         	video.release();
         	flag = false;

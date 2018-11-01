@@ -137,10 +137,20 @@ dlib/opencv.h
 /home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDetection/FaceDetector_opt.cpp
 FaceDetector_opt.h
 /home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDetection/FaceDetector_opt.h
+../FaceAligner/facial_extractor_tools.h
+/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceAligner/facial_extractor_tools.h
+dlib/gui_widgets.h
+-
+dlib/image_processing.h
+-
 
 /home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDetection/FaceDetector_opt.h
 parameters_FacDet.h
 /home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDetection/parameters_FacDet.h
+dlib/gui_widgets.h
+-
+dlib/image_processing.h
+-
 
 /home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDetection/parameters_FacDet.h
 opencv2/objdetect/objdetect.hpp
