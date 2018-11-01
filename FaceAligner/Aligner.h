@@ -7,7 +7,8 @@
 class Aligner {
 public:
     Aligner(const unsigned int size, const double left_eye_after);
-    void AlignImage(const dlib::full_object_detection &shape, dlib::array2d<dlib::bgr_pixel>& image, cv::Mat &template_image);
+    void AlignImage(const dlib::full_object_detection &shape, const dlib::array2d<dlib::bgr_pixel>& image, cv::Mat &template_image);
+    void AlignImage(const dlib::full_object_detection &shape, const cv::Mat &image, cv::Mat &template_image);
 
 private:
     unsigned int size_;
