@@ -57,22 +57,24 @@ int main()
 		real_faces = face_recognition.face_detector_->ignore_false_positives(&frame, all_faces, 2);
 		largest_face[0] = face_recognition.face_detector_->get_largest_face(real_faces);
 		face_recognition.face_detector_->show_faces(&frame, all_faces, real_faces, largest_face[0]);
+		face_recognition.face_aligner_->Detect(frame, largest_face[0], shape);
 		char key_pressed = cv::waitKey(1);
 		switch(key_pressed)
 		{
 			case '1':
 			std::cout << "1";
-			//face_recognition.face_aligner_->Detect(frame, largest_face[0], shape);
 			cv::destroyAllWindows();
         	video.release();
+        	std:: cout << "Ingrese la matricula" << "\n";
+        	// Aqui se implementa caso 1
         	flag = false;
 			break;
 
 			case '2':
 			std::cout << "2";
-			std:: cout << "Ingrese la matricula" << std::endl;
 			cv::destroyAllWindows();
         	video.release();
+        	// Aqui se implementa caso 2
         	flag = false;
 			break;
 
@@ -80,6 +82,8 @@ int main()
 			std::cout << "1";
 			cv::destroyAllWindows();
         	video.release();
+        	std:: cout << "Ingrese los datos a escribir" << "\n";
+        	// Aqui se implementa caso 3
         	flag = false;
 			break;
 			

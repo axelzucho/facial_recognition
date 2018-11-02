@@ -24,12 +24,12 @@ public:
 
 
     // Datos es una struct que va a utilizar el equipo 4.
-    
+
     // Caso 1
-    // Datos caso1(const Mat* image, dlib::full_object_detection shape)
+    // std::pair<bool, &Img> caso1(const Mat* image, dlib::full_object_detection shape, const string& matricula)
 
     // Caso 2
-    // bool caso2(const Mat* image, dlib::full_object_detection shape, const string& matricula)
+    // std::pair<bool, Datos> caso2(const Mat* image, dlib::full_object_detection shape)
 
     // Caso 3
     // bool caso3(const Mat* image, dlib::full_object_detection shape, const Datos& datos)
