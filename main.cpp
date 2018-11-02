@@ -8,30 +8,37 @@
 #include <iostream>
 #include <vector>
 
+parameters_FacDet initialize_detection_parameters(){
+	parameters_FacDet settings;//for detector initialization
+	std::vector <string> paths_to_detection_models;
+
+	paths_to_detection_models.push_back("../FaceDetection/classifiers/haarcascade_frontalface_default.xml");
+	paths_to_detection_models.push_back("../FaceDetection/classifiers/haarcascade_frontalface_alt.xml");
+	paths_to_detection_models.push_back("../FaceDetection/classifiers/haarcascade_frontalface_alt2.xml");
+	paths_to_detection_models.push_back("../FaceDetection/classifiers/haarcascade_frontalface_alt_tree.xml");
+
+	settings.classifiers_location = paths_to_detection_models;
+	settings.scaleFact = 1.2;
+	settings.validNeighbors = 1;
+	settings.minWidth = 30;
+	settings.maxWidth = 30;
+
+	return settings;
+}
+
+
 int main()
 {
-	//Caso1 - Reconocer una persona en camara
-
-	parameters_FacDet settings;//for detector initialization
-	std::vector <string> pathsToClassif;
-	std::vector<cv::Rect> temporal;
+	parameters_FacDet settings = initialize_detection_parameters();
+    //Some initialization for the first raw example...
+	std::vector<cv::Rect> all_faces;
 	std::vector<cv::Rect> real_faces;
   	std::vector<cv::Rect> largest_face;
   	largest_face.resize(1);
 	//path of classifiers to train algorithm
-  	pathsToClassif.push_back("/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDetection/classifiers/haarcascade_frontalface_default.xml");
-  	pathsToClassif.push_back("/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDetection/classifiers/haarcascade_frontalface_alt.xml");
-  	pathsToClassif.push_back("/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDetection/classifiers/haarcascade_frontalface_alt2.xml");
-  	pathsToClassif.push_back("/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDetection/classifiers/haarcascade_frontalface_alt_tree.xml");
-  	settings.classifiers_location = pathsToClassif;
-  	settings.scaleFact = 1.2;
-  	settings.validNeighbors = 1;
-  	settings.minWidth = 30;
-  	settings.maxWidth = 30;
-  	FaceRecognition face_recognition (settings, "/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceAligner/shape_predictor_5_face_landmarks.dat", 500, 0.3, "/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat");
-  	FaceDetector_opt detector (settings);
-	
-  	FaceAligner face_transformer("/home/rodrigo/Documents/Facial Recognition/Final/facial_recognition/FaceAligner/shape_predictor_5_face_landmarks.dat", 500, 0.3);
+  	FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 500, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat");
+
+  	FaceAligner face_transformer("../FaceAligner/shape_predictor_5_face_landmarks.dat", 500, 0.3);
   	cv::Mat template_image;
   	dlib::full_object_detection shape;
 
@@ -40,40 +47,25 @@ int main()
 	while (!video.isOpened()) {
 	    std::cout << "Error al intentar abrir la camara" << std::endl;
 	}
-	int opcion;
 	std::cout << "Ingrese el número de la operación deseada:\n1. Reconocer una persona en camara\n2. Verificar si la persona ubicada coincide con la matricula ingresada\n3. Enrolar una persona nueva" << std::endl;
 	bool flag = true;
 	while (flag)
 	{
 		cv::Mat frame;
-		video>> frame;
-		temporal = detector.detect_faces(&frame);
-		real_faces = detector.ignore_false_positives(&frame, temporal, 2);
-		largest_face[0] = detector.get_largest_face(real_faces);
-		//detector.show_faces(&frame, temporal, real_faces, largest_face[0], shape);
-		detector.show_faces(&frame, temporal, real_faces, largest_face[0]);
-
-		
-		//cv::imshow("Camara", frame);
-		//cv::waitKey(1);
-		char Key_pressed=cv::waitKey(1);
-		switch(Key_pressed)
+		video >> frame;
+		all_faces = face_recognition.face_detector_->detect_faces(&frame);
+		real_faces = face_recognition.face_detector_->ignore_false_positives(&frame, all_faces, 2);
+		largest_face[0] = face_recognition.face_detector_->get_largest_face(real_faces);
+		face_recognition.face_detector_->show_faces(&frame, all_faces, real_faces, largest_face[0]);
+		char key_pressed = cv::waitKey(1);
+		switch(key_pressed)
 		{
 			case '1':
 			std::cout << "1";
-			//face_transformer.Detect(frame, largest_face[0], shape);
+			//face_recognition.face_aligner_->Detect(frame, largest_face[0], shape);
 			cv::destroyAllWindows();
         	video.release();
         	flag = false;
-			/*temporal = detector.detect_faces(&frame);
-			real_faces = detector.ignore_false_positives(&frame, temporal, 2);
-			largest_face[0] = detector.get_largest_face(real_faces);
-			detector.show_faces(&frame, temporal, real_faces, largest_face[0]);
-			face_transformer.Detect(frame, largest_face[0], shape);*/
-
-
-			cv::waitKey(0);
-			
 			break;
 
 			case '2':

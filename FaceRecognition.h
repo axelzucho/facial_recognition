@@ -36,7 +36,7 @@ public:
 
     ~FaceRecognition();
 
-private:
+//private:
     FaceDetector_opt *face_detector_;
     FaceAligner *face_aligner_;
     FaceDescriptorExtractor *face_descriptor_extactor_;
