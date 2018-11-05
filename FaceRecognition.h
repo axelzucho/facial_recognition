@@ -15,6 +15,10 @@
 //Module 3
 #include "FaceDescriptorExtractor/FaceDescriptorExtractor.h"
 
+//Module 4
+#include "DB/DataBase.h"
+
+
 using std::string;
 
 class FaceRecognition {
@@ -40,6 +44,7 @@ public:
     FaceDetector_opt *face_detector_;
     FaceAligner *face_aligner_;
     FaceDescriptorExtractor *face_descriptor_extactor_;
+    DataBase *database_;
 
 };
 
