@@ -19,3 +19,16 @@ FaceRecognition::~FaceRecognition() {
     delete(face_descriptor_extactor_);
     delete(database_);
 }
+
+std::pair<bool, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::full_object_detection shape,
+                                                         const string &matricula) {
+    return {false, BiographicalData()};
+}
+
+std::pair<bool, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
+    return {false, BiographicalData()};
+}
+
+bool FaceRecognition::caso3(const Mat *image, dlib::full_object_detection shape, const BiographicalData datos) {
+    return false;
+}

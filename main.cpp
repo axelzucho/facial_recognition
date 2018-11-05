@@ -66,7 +66,13 @@ int main()
 			cv::destroyAllWindows();
         	video.release();
         	std:: cout << "Ingrese la matricula" << "\n";
-        	// Aqui se implementa caso 1
+				// Aqui se implementa caso 1
+				{
+					string matricula;
+					cin >> matricula;
+					std::pair<bool, BiographicalData> result_case_1;
+					result_case_1 = face_recognition.caso1(&frame, shape, matricula);
+				}
         	flag = false;
 			break;
 
@@ -75,6 +81,10 @@ int main()
 			cv::destroyAllWindows();
         	video.release();
         	// Aqui se implementa caso 2
+				{
+					std::pair<bool, BiographicalData> result_case_2;
+					result_case_2 = face_recognition.caso2(&frame, shape);
+				}
         	flag = false;
 			break;
 
@@ -84,6 +94,28 @@ int main()
         	video.release();
         	std:: cout << "Ingrese los datos a escribir" << "\n";
         	// Aqui se implementa caso 3
+				{
+					string matricula, name, last_name, mail;
+					int age;
+					std:: cout << "Ingrese la matricula" << "\n";
+					cin >> matricula;
+					std:: cout << "Ingrese el nombre" << "\n";
+					cin >> name;
+					std:: cout << "Ingrese el apellido" << "\n";
+					cin >> last_name;
+					std:: cout << "Ingrese el mail" << "\n";
+					cin >> mail;
+					std:: cout << "Ingrese la edad" << "\n";
+					cin >> age;
+					BiographicalData bio;
+					bio.matricula = matricula;
+					bio.age = age;
+					bio.name = name;
+					bio.lastName = last_name;
+					bio.mail = mail;
+					bool result_case_3;
+					result_case_3 = face_recognition.caso3(&frame, shape, bio);
+				}
         	flag = false;
 			break;
 			
