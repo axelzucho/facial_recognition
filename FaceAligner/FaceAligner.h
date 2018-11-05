@@ -8,7 +8,6 @@
 #include "Aligner.h"
 #include "FaceLandmarkDetector.h"
 
-#include <dlib/gui_widgets.h>
 #include <dlib/image_processing.h>
 #include <opencv2/core/core.hpp>
 

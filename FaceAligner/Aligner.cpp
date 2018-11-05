@@ -1,7 +1,6 @@
 #include "Aligner.h"
 #include "facial_extractor_tools.h"
 
-#include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 #include <dlib/image_processing.h>
 #include <dlib/image_processing/render_face_detections.h>

@@ -8,7 +8,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
-#include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
 #include <dlib/image_processing.h>
 
@@ -51,45 +50,6 @@ namespace extractor {
         namedWindow("Display window", WINDOW_AUTOSIZE); // Create a window for display.
         imshow("Display window", image);                // Show our image inside it.
         waitKey(0); // Wait for a keystroke in the window
-    }
-
-    void show_image_with_points(const dlib::full_object_detection &shape, const rectangle &face_rectangle,
-                                const Mat &image) {
-        std::vector<image_window::overlay_circle> points;
-        image_window win;
-        win.set_size(image.cols, image.rows);
-        win.set_title("Detector");
-
-        while (!win.is_closed()) {
-            for (unsigned int n = 0; n < shape.num_parts(); n++) {
-                const point &pt = shape.part(n);
-                points.emplace_back(image_window::overlay_circle(pt, 2, dlib::rgb_pixel(255, 255, 0)));
-            }
-
-            win.clear_overlay();
-            win.set_image(dlib::cv_image<dlib::bgr_pixel>(image));
-            win.add_overlay(points);
-            win.add_overlay(face_rectangle);
-        }
-    }
-
-    void show_image_with_points(const dlib::full_object_detection &shape, const Mat &image) {
-        std::vector<image_window::overlay_circle> points;
-        image_window win;
-        win.set_size(image.cols, image.rows);
-        win.set_title("Detector");
-
-        while (!win.is_closed()) {
-            for (unsigned int n = 0; n < shape.num_parts(); n++) {
-                const point &pt = shape.part(n);
-                points.emplace_back(image_window::overlay_circle(pt, 10, dlib::rgb_pixel(255, 255, 0)));
-            }
-
-            win.clear_overlay();
-            win.set_image(dlib::cv_image<dlib::bgr_pixel>(image));
-            win.add_overlay(points);
-            //win.add_overlay(face_rectangle);
-        }
     }
 
     void read_image(int argc, char **argv, string image_path, Mat *image) {
