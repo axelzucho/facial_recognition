@@ -72,7 +72,7 @@ int main()
 				// Aqui se implementa caso 1
 				{
 					string matricula;
-					cin >> matricula;
+					std::cin >> matricula;
 					std::pair<int, BiographicalData> result_case_1;
 					result_case_1 = face_recognition.caso1(&frame, shape, matricula);
 				}
