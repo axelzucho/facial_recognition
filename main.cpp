@@ -26,6 +26,7 @@ parameters_FacDet initialize_detection_parameters(){
 	return settings;
 }
 
+bool result_case_3(const Mat * image, dlib::full_object_detection shape, const BiographicalData data);
 
 int main()
 {
@@ -39,6 +40,7 @@ int main()
   	FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 500, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat");
 
   	FaceAligner face_transformer("../FaceAligner/shape_predictor_5_face_landmarks.dat", 500, 0.3);
+	//Create database object
   	cv::Mat template_image;
   	dlib::full_object_detection shape;
 
@@ -69,8 +71,8 @@ int main()
 				// Aqui se implementa caso 1
 				{
 					string matricula;
-					cin >> matricula;
-					std::pair<bool, BiographicalData> result_case_1;
+					std::cin >> matricula;
+					std::pair<long long, BiographicalData> result_case_1;
 					result_case_1 = face_recognition.caso1(&frame, shape, matricula);
 				}
         	flag = false;
@@ -98,15 +100,15 @@ int main()
 					string matricula, name, last_name, mail;
 					int age;
 					std:: cout << "Ingrese la matricula" << "\n";
-					cin >> matricula;
+					std::cin >> matricula;
 					std:: cout << "Ingrese el nombre" << "\n";
-					cin >> name;
+					std::cin >> name;
 					std:: cout << "Ingrese el apellido" << "\n";
-					cin >> last_name;
+					std::cin >> last_name;
 					std:: cout << "Ingrese el mail" << "\n";
-					cin >> mail;
+					std::cin >> mail;
 					std:: cout << "Ingrese la edad" << "\n";
-					cin >> age;
+					std::cin >> age;
 					BiographicalData bio;
 					bio.matricula = matricula;
 					bio.age = age;
@@ -114,7 +116,7 @@ int main()
 					bio.lastName = last_name;
 					bio.mail = mail;
 					bool result_case_3;
-					result_case_3 = face_recognition.caso3(&frame, shape, bio);
+					result_case_3 = face_recognition.caso3(frame, shape, bio);
 				}
         	flag = false;
 			break;
@@ -127,3 +129,5 @@ int main()
 		
 	return 0;
 }
+
+
