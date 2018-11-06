@@ -71,7 +71,7 @@ int main()
 				{
 					string matricula;
 					cin >> matricula;
-					std::pair<bool, BiographicalData> result_case_1;
+					std::pair<int, BiographicalData> result_case_1;
 					result_case_1 = face_recognition.caso1(&frame, shape, matricula);
 				}
         	flag = false;
@@ -83,7 +83,7 @@ int main()
         	video.release();
         	// Aqui se implementa caso 2
 				{
-					std::pair<bool, BiographicalData> result_case_2;
+					std::pair<int, BiographicalData> result_case_2;
 					result_case_2 = face_recognition.caso2(&frame, shape);
 				}
         	flag = false;
@@ -114,7 +114,7 @@ int main()
 					bio.name = name;
 					bio.lastName = last_name;
 					bio.mail = mail;
-					bool result_case_3;
+					int result_case_3;
 					result_case_3 = face_recognition.caso3(&frame, shape, bio);
 				}
         	flag = false;

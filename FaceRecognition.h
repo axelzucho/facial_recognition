@@ -30,13 +30,13 @@ public:
     // Datos es una struct que va a utilizar el equipo 4.
 
     // Caso 1
-    std::pair<bool, BiographicalData> caso1(const Mat* image, dlib::full_object_detection shape, const string& matricula);
+    std::pair<int, BiographicalData> caso1(const Mat* image, dlib::full_object_detection shape, const string& matricula);
 
     // Caso 2
-    std::pair<bool, BiographicalData> caso2(const Mat* image, dlib::full_object_detection shape);
+    std::pair<int, BiographicalData> caso2(const Mat* image, dlib::full_object_detection shape);
 
     // Caso 3
-    bool caso3(const Mat* image, dlib::full_object_detection shape, const BiographicalData datos);
+    int caso3(const Mat* image, dlib::full_object_detection shape, const BiographicalData datos);
 
     ~FaceRecognition();
 
