@@ -58,7 +58,8 @@ int main()
 		all_faces = face_recognition.face_detector_->detect_faces(&frame);
 		real_faces = face_recognition.face_detector_->ignore_false_positives(&frame, all_faces, 2);
 		largest_face[0] = face_recognition.face_detector_->get_largest_face(real_faces);
-		face_recognition.face_detector_->show_faces(&frame, all_faces, real_faces, largest_face[0]);
+		Mat frame_with_rectangles = frame.clone();
+		face_recognition.face_detector_->show_faces(&frame_with_rectangles, all_faces, real_faces, largest_face[0]);
 		face_recognition.face_aligner_->Detect(frame, largest_face[0], shape);
 		char key_pressed = cv::waitKey(1);
 		switch(key_pressed)
@@ -71,8 +72,8 @@ int main()
 				// Aqui se implementa caso 1
 				{
 					string matricula;
-					std::cin >> matricula;
-					std::pair<long long, BiographicalData> result_case_1;
+					cin >> matricula;
+					std::pair<int, BiographicalData> result_case_1;
 					result_case_1 = face_recognition.caso1(&frame, shape, matricula);
 				}
         	flag = false;
@@ -84,7 +85,7 @@ int main()
         	video.release();
         	// Aqui se implementa caso 2
 				{
-					std::pair<bool, BiographicalData> result_case_2;
+					std::pair<int, BiographicalData> result_case_2;
 					result_case_2 = face_recognition.caso2(&frame, shape);
 				}
         	flag = false;

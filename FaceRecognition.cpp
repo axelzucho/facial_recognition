@@ -20,13 +20,13 @@ FaceRecognition::~FaceRecognition() {
     delete(database_);
 }
 
-std::pair<long long, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::full_object_detection shape,
+std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::full_object_detection shape,
                                                          const string &matricula) {
-    return {false, BiographicalData()};
+    return {0, BiographicalData()};
 }
 
-std::pair<bool, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
-    return {false, BiographicalData()};
+std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
+    return {0, BiographicalData()};
 }
 
 bool FaceRecognition::caso3(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos) {
