@@ -56,7 +56,8 @@ int main()
 		all_faces = face_recognition.face_detector_->detect_faces(&frame);
 		real_faces = face_recognition.face_detector_->ignore_false_positives(&frame, all_faces, 2);
 		largest_face[0] = face_recognition.face_detector_->get_largest_face(real_faces);
-		face_recognition.face_detector_->show_faces(&frame, all_faces, real_faces, largest_face[0]);
+		Mat frame_with_rectangles = frame.clone();
+		face_recognition.face_detector_->show_faces(&frame_with_rectangles, all_faces, real_faces, largest_face[0]);
 		face_recognition.face_aligner_->Detect(frame, largest_face[0], shape);
 		char key_pressed = cv::waitKey(1);
 		switch(key_pressed)
