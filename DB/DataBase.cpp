@@ -2,9 +2,9 @@
 #include "opencv2/opencv.hpp"
 
 DataBase::DataBase(){
-    this->biographicalFile= "BiographicalData.txt";
-    this->biometricFile = "biometrics.txt";
-    this->nFile = "N.txt";
+    this->biographicalFile= "../BiographicalData.txt";
+    this->biometricFile = "../biometrics.txt";
+    this->nFile = "../N.txt";
 
     if(!existsFile(nFile)){
      N.open(nFile,std::ios::out);
@@ -15,7 +15,7 @@ DataBase::DataBase(){
         }else std::cout<< "Unable creating N.txt\n";
     }
         
-        if(mkdir("Fotos", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0){
+        if(mkdir("../Fotos", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0){
             std::cout<<"Directory successfully created"<<'\n';
             
         }else std::cout<<"Error creating directory or the directory already exits"<<'\n';
@@ -178,7 +178,7 @@ void DataBase::updateDataBase(){
 
 void DataBase::saveUserImage(Mat &image){
     //cv::imwrite("Fotos/2.jpg",image);
-    string fileNameLocation = "Fotos/";
+    string fileNameLocation = "../Fotos/";
     fileNameLocation.append(std::to_string(n));
     fileNameLocation.append(".jpg");
     cv::imwrite(fileNameLocation, image);

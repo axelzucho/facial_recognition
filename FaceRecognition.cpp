@@ -37,7 +37,7 @@ bool FaceRecognition::caso3(const Mat &image, dlib::full_object_detection shape,
    face_aligner_->Align(shape,image,templ);
    database_->saveUserImage(templ);
    Mat res;
-   //res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ).clone();
+   //res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ);
    //database_->saveUserBiometricDataInAFile(res);
     return false;
 }
