@@ -1,12 +1,13 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 //Se incluyen las librerías necesarias.
-#include <bits/stdc++.h>
 #include <sys/stat.h>
+#include <string>
+#include <iostream>
+#include <fstream>
 #include "opencv2/core.hpp"
 #include "opencv2/flann/miniflann.hpp"
 #include "opencv2/flann/flann_base.hpp"
-
 
 using namespace cv::flann;
 

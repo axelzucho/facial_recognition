@@ -1,6 +1,7 @@
 #include "DataBase.h"
 #include "opencv2/opencv.hpp"
 
+
 DataBase::DataBase(){
     this->biographicalFile= "../BiographicalData.txt";
     this->biometricFile = "../biometrics.txt";
@@ -15,7 +16,7 @@ DataBase::DataBase(){
         }else std::cout<< "Unable creating N.txt\n";
     }
         
-        if(mkdir("../Fotos", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0){
+        if(mkdir("Fotos", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0){
             std::cout<<"Directory successfully created"<<'\n';
             
         }else std::cout<<"Error creating directory or the directory already exits"<<'\n';
