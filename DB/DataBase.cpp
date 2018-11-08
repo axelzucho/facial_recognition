@@ -2,7 +2,7 @@
 #include "opencv2/opencv.hpp"
 
 DataBase::DataBase(){
-    this->biographicalFile= "Data.txt";
+    this->biographicalFile= "BiographicalData.txt";
     this->biometricFile = "biometrics.txt";
     this->nFile = "N.txt";
 
@@ -33,7 +33,7 @@ DataBase::DataBase(string biographicalFile,string biometricFile,string nFile,str
     cargarId_MatriculaFile();
     //cout<<descriptores<<endl;
     flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
-    std::cout<<"listo"<<std::endl;
+    //std::cout<<"listo"<<std::endl;
 }
 
 inline bool DataBase::existsFile (const std::string& name) {
@@ -124,7 +124,7 @@ Mat DataBase::getBiometricByMatricula(string matricula){
 void DataBase::saveUserDataInAFile(BiographicalData bio){
     
     int id=n;
-    std::cout<<"listo"<<std::endl;
+   // std::cout<<"listo"<<std::endl;
 
     biographicalDB.open(biographicalFile,std::ios::out | std::ios::app);
     
@@ -169,7 +169,7 @@ void DataBase::updateDataBase(){
     N.open(nFile);
     n=n+1;
     if(N.is_open()){
-        std::cout<<"n: "<<n<<std::endl;
+        //std::cout<<"n: "<<n<<std::endl;
         N<<n<<"\n";
         N.close();
     }else std::cout<<"Error updating N.txt file\n";
@@ -177,7 +177,8 @@ void DataBase::updateDataBase(){
 }
 
 void DataBase::saveUserImage(Mat &image){
-    string fileNameLocation = "/Fotos/";
+    //cv::imwrite("Fotos/2.jpg",image);
+    string fileNameLocation = "Fotos/";
     fileNameLocation.append(std::to_string(n));
     fileNameLocation.append(".jpg");
     cv::imwrite(fileNameLocation, image);

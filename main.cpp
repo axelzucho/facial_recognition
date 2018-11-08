@@ -116,6 +116,7 @@ int main()
 					bio.name = name;
 					bio.lastName = last_name;
 					bio.mail = mail;
+					//std::cout<< frame<<std::endl;
 					bool result_case_3;
 					result_case_3 = face_recognition.caso3(frame, shape, bio);
 				}
