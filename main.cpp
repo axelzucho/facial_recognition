@@ -38,7 +38,6 @@ int main()
   	largest_face.resize(1);
 	//path of classifiers to train algorithm
   	FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat");
-
   	FaceAligner face_transformer("../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3);
 	//Create database object
   	cv::Mat template_image;
@@ -116,9 +115,15 @@ int main()
 					bio.name = name;
 					bio.lastName = last_name;
 					bio.mail = mail;
-					//std::cout<< frame<<std::endl;
-					bool result_case_3;
-					result_case_3 = face_recognition.caso3(frame, shape, bio);
+					int errorCase3 = face_recognition.database_->ValidateData(&bio);
+					if (errorCase3 != 0){
+						//Aquí se imprime el error, debe haber un loop si los datos no están correctos.
+						std::cout<<errorCase3<<std::endl;
+					}else{
+						bool result_case_3;
+						result_case_3 = face_recognition.enroll(frame, shape, bio);
+					}
+					
 				}
         	flag = false;
 			break;
