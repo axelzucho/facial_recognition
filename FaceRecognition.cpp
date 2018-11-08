@@ -32,12 +32,12 @@ std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::
 bool FaceRecognition::caso3(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos) {
    database_->getN(); 
    database_->saveUserDataInAFile(datos);
-   database_->updateDataBase();
    Mat templ;
    face_aligner_->Align(shape,image,templ);
    database_->saveUserImage(templ);
    Mat res;
-   //res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ);
-   //database_->saveUserBiometricDataInAFile(res);
+   res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ);
+   database_->saveUserBiometricDataInAFile(res);
+   database_->updateDataBase();
     return false;
 }

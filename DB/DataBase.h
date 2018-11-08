@@ -33,6 +33,7 @@ class DataBase {
         string matricula,name,lastName,mail,age,biographicalFile,biometricFile,nFile,id_matFile;
         std::fstream biographicalDB,biometricDB,N,Id_Mat;
         std::vector<MatriculaId> Id_MatriculaVector;
+        std::vector<BiographicalData> biograData;
        
 
     public:
@@ -40,8 +41,11 @@ class DataBase {
         DataBase(string biographicalFile,string biometricFile,string nFile,string id_matFile);
         //https://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exist-using-standard-c-c11-c
         inline bool existsFile (const std::string& name);//Return true if the file exists, false if not.
-        void cargarBase();
-        void cargarId_MatriculaFile();
+        void load_BiometricFile();
+        void load_ImgFolder();
+        void load_N_File();
+        void load_Id_MatriculaFile();
+        void load_BiographicalFile();
         Mat getMatrix();
         Mat getColumn(int num);
         Mat getRow(int num);
@@ -50,9 +54,14 @@ class DataBase {
         void saveUserDataInAFile(BiographicalData bio);
         void saveUserBiometricDataInAFile(Mat biometric);
         void saveUserImage(Mat &image);
-        //bool verify(string matricula,Mat vec);
         void getN();
         void updateDataBase();
+        bool ValidName(std::string word);
+        bool SimpleValidateMail(std::string mail);
+        int ValidateData(BiographicalData* Data);
+        BiographicalData getUserInfoByID(int ID);
+        BiographicalData String_To_Structure(std::string Data_As_String);
+        std::vector<std::string> indexData(std::string dataLine);
     
         //~DataBase();
     

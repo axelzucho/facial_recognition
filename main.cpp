@@ -37,9 +37,9 @@ int main()
   	std::vector<cv::Rect> largest_face;
   	largest_face.resize(1);
 	//path of classifiers to train algorithm
-  	FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 500, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat");
+  	FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat");
 
-  	FaceAligner face_transformer("../FaceAligner/shape_predictor_5_face_landmarks.dat", 500, 0.3);
+  	FaceAligner face_transformer("../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3);
 	//Create database object
   	cv::Mat template_image;
   	dlib::full_object_detection shape;
