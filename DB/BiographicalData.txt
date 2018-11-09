@@ -1,2 +1,2 @@
-0,A01024162,Mauricio,Peón,m@.,22,../DB/Img/0.jpg
-1,A01020736,Romeo,Varela,@j.,21,../DB/Img/1.jpg
+0,A01024162,Mauricio,Peón,maupeon@gmail.com,22,../DB/Img/0.jpg
+1,A02025678,Romeo,Varela,@.,26,../DB/Img/1.jpg

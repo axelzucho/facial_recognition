@@ -145,12 +145,15 @@ void DataBase::load_Id_MatriculaFile(){
  }
  
 
- Mat DataBase::search(Mat elementoaBuscar,int K){
+ std::pair <Mat, Mat> DataBase::search(Mat elementoaBuscar,int K){
+    std::pair <Mat, Mat> PAIR1 ; 
     clock_t tStart = clock();
     Mat indices,dists;
     flann_index->knnSearch(elementoaBuscar,indices,dists,K);
     printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
-    return indices; 
+    PAIR1.first = indices.clone();
+    PAIR1.second = dists.clone();
+    return PAIR1; 
  }
 
 
@@ -199,7 +202,7 @@ void DataBase::saveUserBiometricDataInAFile(Mat biometric){
         nuevoUsuario+=std::to_string(id);
         nuevoUsuario+=",";
         for(int i = 0 ; i< biometric.rows;i++){
-            float nearest = roundf(biometric.at<float>(i,0) * 100) / 100;
+           float nearest = biometric.at<float>(i,0);
             //cout<<nearest<<" ";
             nuevoUsuario+= std::to_string(nearest);
             if(i < biometric.rows-1){
