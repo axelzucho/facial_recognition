@@ -8,7 +8,7 @@ project(fr)
 
 set(CMAKE_CXX_STANDARD 11)
 
-include(/home/axelzucho/Documents/dlib-19.16/dlib/cmake)
+include(/home/saul/Documents/dlib-19.16/dlib/cmake)
 
 
 set(HEADERS FaceAligner/facial_extractor_tools.h FaceAligner/Aligner.h FaceAligner/FaceLandmarkDetector.h FaceAligner/FaceAligner.h FaceDescriptorExtractor/FaceDescriptorExtractor.h FaceDetection/FaceDetector_opt.h DB/DataBase.h FaceRecognition.h
@@ -22,7 +22,7 @@ find_package(OpenCV REQUIRED)
 
 # if not, use manual specification of the OpenCVConfig.cmake path
 # and comment previous line of automatic finding
-#find_package(OpenCV REQUIRED PATHS /usr/local/share/OpenCV NO_DEFAULT_PATH) 
+#find_package(OpenCV REQUIRED PATHS /usr/local/share/OpenCV NO_DEFAULT_PATH)
 
 
 if (OpenCV_FOUND)
@@ -38,5 +38,3 @@ include_directories(${fr_include})
 
 add_executable(fr main.cpp ${HEADERS} ${SOURCE})
 target_link_libraries(fr ${OpenCV_LIBS} dlib::dlib)
-
-

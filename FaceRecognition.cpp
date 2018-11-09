@@ -27,11 +27,30 @@ std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::
 }
 
 std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
-    return {0, BiographicalData()};
+
+  Mat template_image;
+  BiographicalData output_biographical_data;
+  std::pair<Mat, Mat> output_mat;
+  float valor;
+
+  //Alinear la imagen
+  face_aligner_->Align(shape, *image, template_image);
+
+  //Obtener los rasgos del rostro
+  template_image =  face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
+
+  //Comparar con la base de datos
+  output_mat = database_->search(template_image, 1);
+
+  valor = output_mat.first.at<float>(0,0);
+
+  output_biographical_data = database_->getUserInfoByID(int(valor));
+
+  return {0, BiographicalData()};
 }
 
 bool FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos) {
-   database_->getN(); 
+   database_->getN();
    database_->saveUserDataInAFile(datos);
    Mat templ;
    face_aligner_->Align(shape,image,templ);
