@@ -6,11 +6,12 @@
 
 FaceRecognition::FaceRecognition(const parameters_FacDet &parameters, const string &path_to_landmark_model,
                                  const unsigned int size, const double left_eye_after,
-                                 const string &path_to_descriptor_model) {
+                                 const string &path_to_descriptor_model, float threshold) {
     face_detector_ = new FaceDetector_opt(parameters);
     face_aligner_ = new FaceAligner(path_to_landmark_model, size, left_eye_after);
     face_descriptor_extactor_ = new FaceDescriptorExtractor(path_to_descriptor_model);
     database_ = new DataBase();
+    threshold_ = threshold;
 }
 
 FaceRecognition::~FaceRecognition() {
