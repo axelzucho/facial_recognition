@@ -67,13 +67,19 @@ int main()
 			std::cout << "1";
 			cv::destroyAllWindows();
         	video.release();
-        	std:: cout << "Ingrese la matricula" << "\n";
+        	std::cout << "Ingrese la matricula" << "\n";
 				// Aqui se implementa caso 1
 				{
 					string matricula;
 					std::cin >> matricula;
 					std::pair<int, BiographicalData> result_case_1;
 					result_case_1 = face_recognition.caso1(&frame, shape, matricula);
+					if(result_case_1.first == 1){
+					    std::cout << "La persona concuerda con su matrícula\n";
+					}
+					else {
+						std::cout <<
+					}
 				}
         	flag = false;
 			break;
@@ -86,6 +92,12 @@ int main()
 				{
 					std::pair<int, BiographicalData> result_case_2;
 					result_case_2 = face_recognition.caso2(&frame, shape);
+					if(result_case_2.first == 1){
+						std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.name << " " << result_case_2.second.lastName << " con la matrícula: " << result_case_2.second.matricula << "\n";
+					}
+					else{
+						std::cout << "La persona no fue reconocida\n";
+					}
 				}
         	flag = false;
 			break;
