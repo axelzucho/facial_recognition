@@ -18,7 +18,6 @@ DataBase::DataBase(){
         load_Id_MatriculaFile();
     
         flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
-       // std::cout<<"listo"<<std::endl;
     }
 }
 
@@ -39,9 +38,15 @@ DataBase::DataBase(string biographicalFile,string biometricFile,string nFile,str
         load_Id_MatriculaFile();
         
         flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
-       // std::cout<<"listo"<<std::endl;
     }
 }
+
+inline bool DataBase::existsFile (const std::string& name) {
+    std::ifstream f(name.c_str());
+    return f.good();
+    
+}
+
 void DataBase::load_N_File(){
     
     if(!existsFile(nFile)){
@@ -53,11 +58,7 @@ void DataBase::load_N_File(){
         }else std::cout<< "Unable creating N.txt\n";
     }
 }
-inline bool DataBase::existsFile (const std::string& name) {
-    std::ifstream f(name.c_str());
-    return f.good();
-    
-}
+
 void DataBase::load_ImgFolder(){
     if(mkdir("../DB/Img", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0){
         std::cout<<"Directory successfully created"<<'\n';
@@ -114,8 +115,21 @@ void DataBase::load_BiometricFile(){
         descriptores = descr.clone();
         
         
-    }else std::cout<<"Unable to open: "<<biometricFile<<'\n';
+     }else std::cout<<"Unable to open: "<<biometricFile<<'\n';
+}
 
+void DataBase::load_Id_MatriculaFile(){
+    MatriculaId m;
+        
+    Id_Mat.open(id_matFile,std::ios::in);
+        
+    if(Id_Mat.is_open()){
+        while (Id_Mat>>m.ID>>m.matricula) {
+                
+          Id_MatriculaVector.push_back(m);
+        }
+        Id_Mat.close();
+    }else std::cout<<"Unable to open: "<<id_matFile<<'\n';
 }
 
  Mat DataBase::getMatrix(){
@@ -136,21 +150,9 @@ void DataBase::load_BiometricFile(){
     Mat indices,dists;
     flann_index->knnSearch(elementoaBuscar,indices,dists,K);
     printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
-    return indices.clone(); 
+    return indices; 
  }
-void DataBase::load_Id_MatriculaFile(){
-    MatriculaId m;
-    
-    Id_Mat.open(id_matFile,std::ios::in);
-    
-    if(Id_Mat.is_open()){
-        while (Id_Mat>>m.ID>>m.matricula) {
-            
-            Id_MatriculaVector.push_back(m);
-        }
-        Id_Mat.close();
-    }else std::cout<<"Unable to open: "<<id_matFile<<'\n';
-}
+
 
 Mat DataBase::getBiometricByMatricula(string matricula){
     Mat m;
@@ -174,7 +176,7 @@ void DataBase::saveUserDataInAFile(BiographicalData bio){
     
     if(biographicalDB.is_open()){
         
-        biographicalDB<<id<<","<<bio.matricula<<","<<bio.name<<","<<bio.lastName<<","<<bio.mail<<","<<bio.age<<","<<bio.img<<"\n";
+        biographicalDB<<id<<","<<bio.matricula<<","<<bio.name<<","<<bio.lastName<<","<<bio.mail<<","<<bio.age<<","<<"../DB/Img/"+std::to_string(id)+".jpg"<<"\n";
         biographicalDB.close();
     }else std::cout<<"Unable to open file: "<<biographicalFile<<'\n';
     
@@ -193,18 +195,31 @@ void DataBase::saveUserBiometricDataInAFile(Mat biometric){
     int id=n;
     biometricDB.open(biometricFile,std::ios::out | std::ios::app);
     
-    nuevoUsuario+=std::to_string(id);
-    nuevoUsuario+=",";
-    for(int i = 0 ; i< biometric.rows;i++){
-        float nearest = roundf(biometric.at<float>(i,0) * 100) / 100;
-        //cout<<nearest<<" ";
-        nuevoUsuario+= std::to_string(nearest);
-        if(i < biometric.rows-1){
-            nuevoUsuario+=',';
+    if(biometricDB.is_open()){
+        nuevoUsuario+=std::to_string(id);
+        nuevoUsuario+=",";
+        for(int i = 0 ; i< biometric.rows;i++){
+            float nearest = roundf(biometric.at<float>(i,0) * 100) / 100;
+            //cout<<nearest<<" ";
+            nuevoUsuario+= std::to_string(nearest);
+            if(i < biometric.rows-1){
+                nuevoUsuario+=',';
+            }
         }
-    }
-    //std::cout<<nuevoUsuario<<std::endl;
-    biometricDB<<nuevoUsuario<<"\n";
+        //std::cout<<nuevoUsuario<<std::endl;
+        biometricDB<<nuevoUsuario<<"\n";
+        biometricDB.close();
+    }else std::cout<<"Unable to open file: "<<biometricFile<<'\n';
+}
+    
+void DataBase::saveUserImage(Mat &image){
+        
+    //cv::imwrite("Fotos/2.jpg",image);
+    string fileNameLocation = "../DB/Img/";
+        
+    fileNameLocation.append(std::to_string(n));
+    fileNameLocation.append(".jpg");
+    cv::imwrite(fileNameLocation, image);
 }
 
 void DataBase::getN(){
@@ -228,13 +243,6 @@ void DataBase::updateDataBase(){
    
 }
 
-void DataBase::saveUserImage(Mat &image){
-    //cv::imwrite("Fotos/2.jpg",image);
-    string fileNameLocation = "../DB/Img/";
-    fileNameLocation.append(std::to_string(n));
-    fileNameLocation.append(".jpg");
-    cv::imwrite(fileNameLocation, image);
-}
 //Splits the dataLine (strings) to a vector of strings
 std::vector<std::string> DataBase::indexData(std::string dataLine) {
 	std::vector <int> keys;
@@ -301,8 +309,9 @@ bool DataBase::ValidName(std::string word)
 bool DataBase::SimpleValidateMail(std::string mail)
 {
     if(mail.find('@')==std::string::npos)
+    {
         return false;
-    else
+    }else
     {
         if(mail.substr(mail.find('@'),mail.size()-mail.find('@')).find('.')==std::string::npos)
             return false;

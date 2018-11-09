@@ -30,7 +30,7 @@ class DataBase {
         Mat queries,ides,descriptores;    
         Index *flann_index;
         int n;
-        string matricula,name,lastName,mail,age,biographicalFile,biometricFile,nFile,id_matFile;
+        string biographicalFile,biometricFile,nFile,id_matFile;
         std::fstream biographicalDB,biometricDB,N,Id_Mat;
         std::vector<MatriculaId> Id_MatriculaVector;
         std::vector<BiographicalData> biograData;
@@ -41,27 +41,27 @@ class DataBase {
         DataBase(string biographicalFile,string biometricFile,string nFile,string id_matFile);
         //https://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exist-using-standard-c-c11-c
         inline bool existsFile (const std::string& name);//Return true if the file exists, false if not.
-        void load_BiometricFile();
-        void load_ImgFolder();
         void load_N_File();
-        void load_Id_MatriculaFile();
+        void load_ImgFolder();
+        void load_BiometricFile();
         void load_BiographicalFile();
+        void load_Id_MatriculaFile();
         Mat getMatrix();
         Mat getColumn(int num);
         Mat getRow(int num);
         Mat search(Mat elementoaBuscar,int K);
         Mat getBiometricByMatricula(string matricula);
+        BiographicalData getUserInfoByID(int ID);
         void saveUserDataInAFile(BiographicalData bio);
         void saveUserBiometricDataInAFile(Mat biometric);
         void saveUserImage(Mat &image);
         void getN();
         void updateDataBase();
+        std::vector<std::string> indexData(std::string dataLine);
+        BiographicalData String_To_Structure(std::string Data_As_String);
         bool ValidName(std::string word);
         bool SimpleValidateMail(std::string mail);
         int ValidateData(BiographicalData* Data);
-        BiographicalData getUserInfoByID(int ID);
-        BiographicalData String_To_Structure(std::string Data_As_String);
-        std::vector<std::string> indexData(std::string dataLine);
         //~DataBase();
     
 };
