@@ -1,7 +1,8 @@
-# FaceDescriptorExtractor
+# CLASS
+## FaceDescriptorExtractor
 Modulo 3 para el reconocimiento facial
 This module will provide functions to extract and compare vectorial descriptors of faces.
-## CLASS
+
 
 ### Constructor
   The constructor by default will provide a path to the model already trained that will be used to obtain the face descriptors.
