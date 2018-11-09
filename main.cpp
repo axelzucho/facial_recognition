@@ -75,10 +75,10 @@ int main()
 					std::pair<int, BiographicalData> result_case_1;
 					result_case_1 = face_recognition.caso1(&frame, shape, matricula);
 					if(result_case_1.first == 1){
-					    std::cout << "La persona concuerda con su matrícula\n";
+					    std::cout << "La persona concuerda con la matrícula ingresada\n";
 					}
 					else {
-						std::cout <<
+						std::cout << "La persona NO concuerda con la matrícula ingresada\n";
 					}
 				}
         	flag = false;
