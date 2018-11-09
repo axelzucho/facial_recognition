@@ -1,2 +1,4 @@
-0,A01024162,Mauricio,Peón,m@gmail.com,22,
-1,A03065123,Romeo,Varela,m@gm.com,25,
+0,A01024162,Mauricio,Peon,m@g.com,22,
+1,A01020736,Romeo,Varela,m@gm.com,22,
+2,A12345678,Mad,adads,sds@.,25,
+3,A12345678,afd,dgsdg,@.,23,

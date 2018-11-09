@@ -14,11 +14,11 @@ DataBase::DataBase(){
     if(existsFile(biometricFile)){
     
         load_BiometricFile();
-        //load_BiographicalFile();
+        load_BiographicalFile();
         load_Id_MatriculaFile();
     
         flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
-        std::cout<<"listo"<<std::endl;
+       // std::cout<<"listo"<<std::endl;
     }
 }
 
@@ -35,11 +35,11 @@ DataBase::DataBase(string biographicalFile,string biometricFile,string nFile,str
     if(existsFile(biometricFile)){
         
         load_BiometricFile();
-        //load_BiographicalFile();
+        load_BiographicalFile();
         load_Id_MatriculaFile();
         
         flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
-        std::cout<<"listo"<<std::endl;
+       // std::cout<<"listo"<<std::endl;
     }
 }
 void DataBase::load_N_File(){
@@ -147,7 +147,7 @@ void DataBase::load_Id_MatriculaFile(){
             
             Id_MatriculaVector.push_back(m);
         }
-        
+        Id_Mat.close();
     }else std::cout<<"Unable to open: "<<id_matFile<<'\n';
 }
 
@@ -309,6 +309,3 @@ bool DataBase::SimpleValidateMail(std::string mail)
             return true;
     }
 }
-
-	
-

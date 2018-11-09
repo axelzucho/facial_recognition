@@ -62,7 +62,6 @@ class DataBase {
         BiographicalData getUserInfoByID(int ID);
         BiographicalData String_To_Structure(std::string Data_As_String);
         std::vector<std::string> indexData(std::string dataLine);
-    
         //~DataBase();
     
 };
