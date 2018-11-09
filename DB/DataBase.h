@@ -56,6 +56,7 @@ class DataBase {
         void saveUserImage(Mat &image);
         void getN();
         void updateDataBase();
+        int getId(Mat firstIndex);
         bool ValidName(std::string word);
         bool SimpleValidateMail(std::string mail);
         int ValidateData(BiographicalData* Data);

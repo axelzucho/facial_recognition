@@ -135,7 +135,7 @@ void DataBase::load_BiometricFile(){
     Mat indices,dists;
     flann_index->knnSearch(elementoaBuscar,indices,dists,K);
     printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
-    return indices; 
+    return indices.clone(); 
  }
 void DataBase::load_Id_MatriculaFile(){
     MatriculaId m;
@@ -160,7 +160,10 @@ Mat DataBase::getBiometricByMatricula(string matricula){
     }
     return m.clone();
 }
-
+int DataBase::getId(Mat firstIndex){
+    int ;
+    search(firstIndex,0);
+}
 BiographicalData DataBase::getUserInfoByID(int ID){
     return biograData[ID];
 }
