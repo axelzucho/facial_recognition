@@ -3,10 +3,10 @@
 
 
 DataBase::DataBase(){
-    this->biographicalFile= "../BiographicalData.txt";
-    this->biometricFile = "../biometrics.txt";
-    this->nFile = "../N.txt";
-    this->id_matFile = "../ID_mat.txt";
+    this->biographicalFile= "../DB/BiographicalData.txt";
+    this->biometricFile = "../DB/biometrics.txt";
+    this->nFile = "../DB/N.txt";
+    this->id_matFile = "../DB/ID_mat.txt";
     
     load_N_File();
     load_ImgFolder();
@@ -59,7 +59,7 @@ inline bool DataBase::existsFile (const std::string& name) {
     
 }
 void DataBase::load_ImgFolder(){
-    if(mkdir("../Img", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0){
+    if(mkdir("../DB/Img", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0){
         std::cout<<"Directory successfully created"<<'\n';
         
     }else std::cout<<"Error creating directory or the directory already exits"<<'\n';
@@ -80,6 +80,7 @@ void DataBase::load_BiographicalFile(){
                 break;
             }
         }
+        biographicalDB.close();
     }else std::cout<<"Unable to open: "<<biographicalFile<<'\n';
 }
 
@@ -160,10 +161,7 @@ Mat DataBase::getBiometricByMatricula(string matricula){
     }
     return m.clone();
 }
-int DataBase::getId(Mat firstIndex){
-    int ;
-    search(firstIndex,0);
-}
+
 BiographicalData DataBase::getUserInfoByID(int ID){
     return biograData[ID];
 }
@@ -232,7 +230,7 @@ void DataBase::updateDataBase(){
 
 void DataBase::saveUserImage(Mat &image){
     //cv::imwrite("Fotos/2.jpg",image);
-    string fileNameLocation = "../Img/";
+    string fileNameLocation = "../DB/Img/";
     fileNameLocation.append(std::to_string(n));
     fileNameLocation.append(".jpg");
     cv::imwrite(fileNameLocation, image);
