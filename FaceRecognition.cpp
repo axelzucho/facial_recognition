@@ -23,31 +23,34 @@ FaceRecognition::~FaceRecognition() {
 
 std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::full_object_detection shape,
                                                          const string &matricula) {
-    cv::Mat template_image;
-    face_aligner_->Align(shape, *image, template_image);
-
+    cv::Mat template_image;//aquí se guarda la imagen ya alineada
+    face_aligner_->Align(shape, *image, template_image);//se alínea la imagen
+    //mostramos la imagen
     cv::imshow("Face", template_image);
     cv::waitKey(0);
-    
+    //obtenemos los descriptores de la persona que solicita acceso
     Mat face = face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
-    //std::cout << face << std::endl;
+    //obtenemos los descriptores guardados de la matrícula en la base de datos
     Mat face_db = database_->getBiometricByMatricula(matricula);
-    //std::cout << face << std::endl;
-    //verificar de antemano y en caso de transposición
+    //guardamos la distancia euclidana entre los dos Mats que incluyen los descriptores
     float resultado_inspec = face_descriptor_extactor_->compararDescriptores(face, face_db);
-    if(resultado_inspec < 0)//error detectado
-    {
-        return {-1, BiographicalData()};
+    //Comparamos el resultado con el threshold para dar acceso o no
+    if(resultado_inspec == -2)//error detectado
+    {//en caso de que la matrícula no exista
+        return {-2, BiographicalData()};
+    }
+    else if(resultado_inspec < 0)
+    {//en caso de cualquier error
+        return{-1, BiographicalData()};
     }
     else if(resultado_inspec < threshold_)
-    {
+    {//en caso de ser la misma persona
         return{1, BiographicalData()};  
     }
     else if(resultado_inspec > threshold_)
-    {
+    {//en caso de que no sea la misma persona guardada en la base de datos
         return{0, BiographicalData()};
     }
-    
     return {0, BiographicalData()};
 }
 
