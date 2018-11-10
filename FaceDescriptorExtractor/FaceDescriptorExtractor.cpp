@@ -28,13 +28,37 @@ cv::Mat FaceDescriptorExtractor::obtenerDescriptorVectorial(cv::Mat &rostro)//Nu
 }
 
 //En esta función recibimos dos MAT la primera siendo la imagen captada en tiempo real y la segundo la que está guardada en la base de datos
-bool FaceDescriptorExtractor::compararDescriptores(cv::Mat &rostroReal, cv::Mat &rostroBD)
+float FaceDescriptorExtractor::compararDescriptores(cv::Mat &rostroReal, cv::Mat &rostroBD)
 {
-    double distanciaEuclidiana = 0;
-    distanciaEuclidiana = cv::norm(rostroReal, rostroBD, cv::NORM_L2);
-    if (distanciaEuclidiana < 0.6)//Calculamos la distancia euclidiana y si es menor a 0.6, que es un umbral que definimos, afirmamos que es la misma 
-    {
-        return true;
+    double distanciaEuclidiana = -1;
+    int columns2 = rostroReal.cols;
+    int rows2 = rostroReal.rows;
+    int rows = rostroBD.rows;
+    int columns = rostroBD.cols;
+    if((rows == 0 && columns ==0) || (rows2 == 0 && columns2 == 0)){//se regresa -2 si la matrícula no existe
+        distanciaEuclidiana = -2;
+        std::cout << distanciaEuclidiana << std::endl;
+        return distanciaEuclidiana;
     }
-    return false;
+    else if(rows == columns2 && columns == rows2)//las columnas y filas están volteadas en alguna matriz
+    {
+        cv::Mat face_t = rostroReal.t();
+        distanciaEuclidiana = cv::norm(face_t, rostroBD, cv::NORM_L2);
+        std::cout << distanciaEuclidiana << std::endl;
+        return distanciaEuclidiana;
+    }
+    else if((rows < 128 && columns < 128) || (rows2 < 128 && columns2 < 128))//Una matriz no es un vector con los 128 elementos
+    {//regresamos -1 en caso de que alguna matriz no sea del tamaño solicitado
+        distanciaEuclidiana = -1;
+        std::cout << distanciaEuclidiana << std::endl;
+        return distanciaEuclidiana;
+    }
+    else
+    {
+        distanciaEuclidiana = cv::norm(rostroReal, rostroBD, cv::NORM_L2);
+        std::cout << distanciaEuclidiana << std::endl;
+        return distanciaEuclidiana;
+    }
+    //std::cout << distanciaEuclidiana << std::endl;
+    return distanciaEuclidiana;
 }
