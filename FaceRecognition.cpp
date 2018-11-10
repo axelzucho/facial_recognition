@@ -23,30 +23,54 @@ FaceRecognition::~FaceRecognition() {
 
 std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::full_object_detection shape,
                                                          const string &matricula) {
+    cv::Mat template_image;
+    face_aligner_->Align(shape, *image, template_image);
+
+    cv::imshow("Face", template_image);
+    cv::waitKey(0);
+    
+    Mat face = face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
+    //std::cout << face << std::endl;
+    Mat face_db = database_->getBiometricByMatricula(matricula);
+    //std::cout << face << std::endl;
+    //verificar de antemano y en caso de transposición
+    float resultado_inspec = face_descriptor_extactor_->compararDescriptores(face, face_db);
+    if(resultado_inspec < 0)//error detectado
+    {
+        return {-1, BiographicalData()};
+    }
+    else if(resultado_inspec < threshold_)
+    {
+        return{1, BiographicalData()};  
+    }
+    else if(resultado_inspec > threshold_)
+    {
+        return{0, BiographicalData()};
+    }
+    
     return {0, BiographicalData()};
 }
 
 std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
+    
+    Mat template_image;
+    BiographicalData output_biographical_data;
+    std::pair<Mat, Mat> output_mat;
+    float valor;
 
-  Mat template_image;
-  BiographicalData output_biographical_data;
-  std::pair<Mat, Mat> output_mat;
-  float valor;
+    //Alinear la imagen
+    face_aligner_->Align(shape, *image, template_image);
 
-  //Alinear la imagen
-  face_aligner_->Align(shape, *image, template_image);
+    //Obtener los rasgos del rostro
+    template_image =  face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
 
-  //Obtener los rasgos del rostro
-  template_image =  face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
+    //Comparar con la base de datos
+    output_mat = database_->search(template_image, 1);
 
-  //Comparar con la base de datos
-  output_mat = database_->search(template_image, 1);
+    valor = output_mat.first.at<float>(0,0);
 
-  valor = output_mat.first.at<float>(0,0);
-
-  output_biographical_data = database_->getUserInfoByID(int(valor));
-
-  return {0, BiographicalData()};
+    output_biographical_data = database_->getUserInfoByID(int(valor));
+    return {0, BiographicalData()};
 }
 
 bool FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos) {
