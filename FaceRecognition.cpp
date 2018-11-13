@@ -3,6 +3,10 @@
 //
 
 #include "FaceRecognition.h"
+#define ALIGN_ERR -1
+#define EXTRACTOR_ERR -2
+#define DB_SEARCH_ERR -4
+#define DB_INFO_ERR -8
 
 FaceRecognition::FaceRecognition(const parameters_FacDet &parameters, const string &path_to_landmark_model,
                                  const unsigned int size, const double left_eye_after,
@@ -60,25 +64,63 @@ std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::
   BiographicalData output_biographical_data;
   std::pair<Mat, Mat> output_mat;
   float valor, distancia;
+  int accum_error = 0;
 
   //Alinear la imagen
-  face_aligner_->Align(shape, *image, template_image);
+  try
+  {
+    face_aligner_->Align(shape, *image, template_image);
+    throw ALIGN_ERR;
+  }
+  catch (int e)
+  {
+    accum_error += e;
+  }
 
   //Obtener los rasgos del rostro
-  template_image =  face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
-
-  //Comparar con la base de datos
-  output_mat = database_->search(template_image, 1);
-
-  valor = output_mat.first.at<float>(0,0);
-  distancia = output_mat.second.at<float>(0,0);
-
-  if(distancia < threshold_)
+  try
   {
-    output_biographical_data = database_->getUserInfoByID(int(valor));
-    return {1, output_biographical_data};
+    template_image =  face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
+    throw EXTRACTOR_ERR;
+  }
+  catch (int e)
+  {
+    accum_error += e;
+  }
+
+  try
+  {
+    //Comparar con la base de datos
+    output_mat = database_->search(template_image, 1);
+    throw DB_SEARCH_ERR;
+  }
+  catch (int e)
+  {
+    accum_error += e;
+  }
+
+  try
+  {
+    valor = output_mat.first.at<float>(0,0);
+    distancia = output_mat.second.at<float>(0,0);
+    throw DB_INFO_ERR;
+  }
+  catch (int e)
+  {
+    accum_error += e;
+  }
+
+  if(accum_error != 0)
+  {
+    return {accum_error, BiographicalData()};
   }else{
-    return {0, BiographicalData()};
+    if(distancia < threshold_)
+    {
+      output_biographical_data = database_->getUserInfoByID(int(valor));
+      return {1, output_biographical_data};
+    }else{
+      return {0, BiographicalData()};
+    }
   }
 }
 
