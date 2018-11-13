@@ -26,8 +26,6 @@ parameters_FacDet initialize_detection_parameters(){
 	return settings;
 }
 
-bool result_case_3(const Mat * image, dlib::full_object_detection shape, const BiographicalData data);
-
 int main()
 {
 	parameters_FacDet settings = initialize_detection_parameters();
@@ -139,32 +137,42 @@ int main()
         	// Aqui se implementa caso 3
 				{
 					string matricula, name, last_name, mail;
-					int age;
+					int age,result_case_3=0;
+					while(result_case_3!=1)
+					{
+					if(!(result_case_3&1))
+					{
 					std:: cout << "Ingrese la matricula" << "\n";
 					std::cin >> matricula;
+					}
+					if(!(result_case_3&2))
+					{
 					std:: cout << "Ingrese el nombre" << "\n";
 					std::cin >> name;
+					}
+					if(!(result_case_3&4))
+					{
 					std:: cout << "Ingrese el apellido" << "\n";
 					std::cin >> last_name;
+					}
+					if(!(result_case_3&8))
+					{
 					std:: cout << "Ingrese el mail" << "\n";
 					std::cin >> mail;
+					}
+					if(!(result_case_3&16))
+					{
 					std:: cout << "Ingrese la edad" << "\n";
 					std::cin >> age;
+					}
 					BiographicalData bio;
 					bio.matricula = matricula;
 					bio.age = age;
 					bio.name = name;
 					bio.lastName = last_name;
 					bio.mail = mail;
-					int errorCase3 = face_recognition.database_->ValidateData(&bio);
-					if (errorCase3 != 0){
-						//Aquí se imprime el error, debe haber un loop si los datos no están correctos.
-						std::cout<<errorCase3<<std::endl;
-					}else{
-						int result_case_3;
-						result_case_3 = face_recognition.enroll(frame, shape, bio);
+					result_case_3 = face_recognition.enroll(frame, shape, bio);
 					}
-
 				}
         	flag = false;
 			break;
