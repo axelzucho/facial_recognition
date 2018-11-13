@@ -31,10 +31,11 @@ std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::
 
 bool FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos) {
    database_->getN(); 
+   Mat i = image.clone();
    database_->saveUserDataInAFile(datos);
    Mat templ;
+    database_->saveUserImage(i);
    face_aligner_->Align(shape,image,templ);
-   database_->saveUserImage(templ);
    Mat res;
    res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ);
    database_->saveUserBiometricDataInAFile(res);
