@@ -82,7 +82,7 @@ std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::
   }
 }
 
-bool FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos) {
+int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos) {
    database_->getN();
    database_->saveUserDataInAFile(datos);
    Mat templ;
@@ -92,5 +92,5 @@ bool FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape
    res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ);
    database_->saveUserBiometricDataInAFile(res);
    database_->updateDataBase();
-   return true;
+   return 1;
 }
