@@ -24,7 +24,7 @@ using std::string;
 class FaceRecognition {
 public:
     FaceRecognition(const parameters_FacDet &parameters, const string &path_to_landmark_model, const unsigned int size,
-                    const double left_eye_after, const string &path_to_descriptor_model);
+                    const double left_eye_after, const string &path_to_descriptor_model, float threshold);
 
 
     // Datos es una struct que va a utilizar el equipo 4.
@@ -36,7 +36,7 @@ public:
     std::pair<int, BiographicalData> caso2(const Mat* image, dlib::full_object_detection shape);
 
     // Caso 3
-    bool enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos);
+    int enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData &datos);
 
     ~FaceRecognition();
 
@@ -45,6 +45,7 @@ public:
     FaceAligner *face_aligner_;
     FaceDescriptorExtractor *face_descriptor_extactor_;
     DataBase *database_;
+    float threshold_;
 
 };
 

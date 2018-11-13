@@ -278,7 +278,7 @@ BiographicalData DataBase::String_To_Structure(std::string Data_As_String)
 		Data_Struct.img=Data_Vector_String[6];
 		return Data_Struct;
 	}
-int DataBase::ValidateData(BiographicalData *bio)
+int DataBase::ValidateData(const BiographicalData *bio)
 {
     int result_case_3=0;
     if(bio->matricula.length()!=9||bio->matricula[0]!='A')
@@ -287,11 +287,11 @@ int DataBase::ValidateData(BiographicalData *bio)
         result_case_3+=2;
     if(!ValidName(bio->lastName))
         result_case_3+=4;
-    if(!SimpleValidateMail(bio->mail))
+    if(!ValidateMail(bio->mail))
         result_case_3+=8;
     if(bio->age>100||bio->age<1)
         result_case_3+=16;
-    return result_case_3;
+    return -result_case_3;
 }
 bool DataBase::ValidName(std::string word)
 {
@@ -309,16 +309,8 @@ bool DataBase::ValidName(std::string word)
     }
         return verdict;
 }	
-bool DataBase::SimpleValidateMail(std::string mail)
+bool DataBase::ValidateMail(std::string mail)
 {
-    if(mail.find('@')==std::string::npos)
-    {
-        return false;
-    }else
-    {
-        if(mail.substr(mail.find('@'),mail.size()-mail.find('@')).find('.')==std::string::npos)
-            return false;
-        else
-            return true;
-    }
+ const std::regex pattern("(?:(?:[^<>()\\[\\].,;:\\s@\"]+(?:\\.[^<>()\\[\\].,;:\\s@\"]+)*)|\".+\")@(?:(?:[^<>()??\\[\\].,;:\\s@\"]+\\.)+[^<>()\\[\\].,;:\\s@\"]{2,})");
+   return std::regex_match(mail, pattern);
 }

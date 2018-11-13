@@ -81,7 +81,7 @@ public:
     
     cv::Mat obtenerDescriptorVectorial(cv::Mat &rostro);
 
-    bool compararDescriptores(cv::Mat &rostroReal, cv::Mat &rostroBD);
+    float compararDescriptores(cv::Mat &rostroReal, cv::Mat &rostroBD);
 };
 
 #endif

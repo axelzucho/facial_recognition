@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <regex>
 #include "opencv2/core.hpp"
 #include "opencv2/flann/miniflann.hpp"
 #include "opencv2/flann/flann_base.hpp"
@@ -60,8 +61,8 @@ class DataBase {
         std::vector<std::string> indexData(std::string dataLine);
         BiographicalData String_To_Structure(std::string Data_As_String);
         bool ValidName(std::string word);
-        bool SimpleValidateMail(std::string mail);
-        int ValidateData(BiographicalData* Data);
+        bool ValidateMail(std::string mail);
+        int ValidateData(const BiographicalData* Data);
         //~DataBase();
     
 };

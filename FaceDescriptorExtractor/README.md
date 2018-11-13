@@ -13,9 +13,7 @@ This module will provide functions to extract and compare vectorial descriptors 
         1. cv::Mat given - this Mat contains the image that we will analize and obtain the vectorial descriptors.
         2. cv::Mat result - this Mat contains the descriptors of the Mat given and we return it.
         
-  2. compararDescriptores(cv::Mat 1, cv::Mat 2) : this function returns a boolean according to the euclidean distance and the
-  threshold that we set which is 0.6:
+  2. compararDescriptores(cv::Mat 1, cv::Mat 2) : this function returns the euclidean distance as a float:
         1. cv::Mat 1 - contains the descriptors that will be compared against Mat 2.
         2. cv::Mat 2 - "                                                     " Mat 1.
-        3. boolean - we return true if they are close enough to be lower than the threshold or false if they are too distant
-        in order to be higher than the threshold.
+        3. float - we return the euclidean distance, if there is any error we return a negative number
