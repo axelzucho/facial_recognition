@@ -291,6 +291,7 @@ int DataBase::ValidateData(const BiographicalData *bio)
         result_case_3+=8;
     if(bio->age>100||bio->age<1)
         result_case_3+=16;
+
     return -result_case_3;
 }
 bool DataBase::ValidName(std::string word)

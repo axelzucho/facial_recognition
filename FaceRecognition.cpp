@@ -130,7 +130,7 @@ int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape,
   int result_enroll= database_->ValidateData(&datos);
   if(result_enroll>=0)
   {
-  database_->getN();
+   database_->getN();
    database_->saveUserDataInAFile(datos);
    Mat i = image.clone();
    Mat templ;

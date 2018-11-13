@@ -172,6 +172,7 @@ int main()
 					bio.lastName = last_name;
 					bio.mail = mail;
 					result_case_3 = face_recognition.enroll(frame, shape, bio);
+					std::cout << result_case_3<<std::endl;
 					}
 					std::cout << "La persona fue registrada\n";
 				}
