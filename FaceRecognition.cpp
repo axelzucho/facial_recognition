@@ -125,7 +125,10 @@ std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::
 }
 
 int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos) {
-   database_->getN();
+  int result_enroll=face_recognition.database_->ValidateData(&datos);
+  if(result_enroll>=0)
+  {
+  database_->getN();
    database_->saveUserDataInAFile(datos);
    Mat templ;
    face_aligner_->Align(shape,image,templ);
@@ -134,5 +137,7 @@ int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape,
    res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ);
    database_->saveUserBiometricDataInAFile(res);
    database_->updateDataBase();
-   return 1;
+    result_enroll=1;//Success
+  }
+   return result_enroll;
 }
