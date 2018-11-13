@@ -287,7 +287,7 @@ int DataBase::ValidateData(BiographicalData *bio)
         result_case_3+=2;
     if(!ValidName(bio->lastName))
         result_case_3+=4;
-    if(!SimpleValidateMail(bio->mail))
+    if(!ValidateMail(bio->mail))
         result_case_3+=8;
     if(bio->age>100||bio->age<1)
         result_case_3+=16;
@@ -309,16 +309,8 @@ bool DataBase::ValidName(std::string word)
     }
         return verdict;
 }	
-bool DataBase::SimpleValidateMail(std::string mail)
+bool ValidateMail(std::string mail)
 {
-    if(mail.find('@')==std::string::npos)
-    {
-        return false;
-    }else
-    {
-        if(mail.substr(mail.find('@'),mail.size()-mail.find('@')).find('.')==std::string::npos)
-            return false;
-        else
-            return true;
-    }
+ const std::regex pattern("(?:(?:[^<>()\\[\\].,;:\\s@\"]+(?:\\.[^<>()\\[\\].,;:\\s@\"]+)*)|\".+\")@(?:(?:[^<>()??\\[\\].,;:\\s@\"]+\\.)+[^<>()\\[\\].,;:\\s@\"]{2,})");
+   return std::regex_match(mail, pattern);
 }
