@@ -36,7 +36,7 @@ public:
     std::pair<int, BiographicalData> caso2(const Mat* image, dlib::full_object_detection shape);
 
     // Caso 3
-    bool enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos);
+    int enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData datos);
 
     ~FaceRecognition();
 
