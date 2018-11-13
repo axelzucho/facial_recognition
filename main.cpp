@@ -35,16 +35,16 @@ int main()
 	//Some initialization for the first raw example...
 	std::vector<cv::Rect> all_faces;
 	std::vector<cv::Rect> real_faces;
-  std::vector<cv::Rect> largest_face;
-  largest_face.resize(1);
+  	std::vector<cv::Rect> largest_face;
+  	largest_face.resize(1);
 
 	//path of classifiers to train algorithm
-  FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat", 0.4);
-  FaceAligner face_transformer("../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3);
+	FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat", 0.4);
+	FaceAligner face_transformer("../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3);
 
 	//Create database object
-  cv::Mat template_image;
-  dlib::full_object_detection shape;
+	cv::Mat template_image;
+	dlib::full_object_detection shape;
 
 	cv::VideoCapture video(0);
 	video.open(0);
@@ -110,13 +110,14 @@ int main()
 						result_case_2 = face_recognition.caso2(&frame, shape);
 
 						std::cout << "Regresó información de la función en el main" << std::endl;
-						cv::Mat recognized_image;
-    					recognized_image = cv::imread(result_case_2.second.img, cv::IMREAD_COLOR);
-    					cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
-    					cv::hconcat(frame, recognized_image, recognized_image);
-    					cv::imshow( "Recognized image vs Database Image",  recognized_image);
-    					cv::waitKey(0);
+						
 						if(result_case_2.first == 1){
+							cv::Mat recognized_image;
+	    					recognized_image = cv::imread(result_case_2.second.img, cv::IMREAD_COLOR);
+	    					cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
+	    					cv::hconcat(frame, recognized_image, recognized_image);
+	    					cv::imshow( "Recognized image vs Database Image",  recognized_image);
+	    					cv::waitKey(0);
 							std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.name << " " << result_case_2.second.lastName << " con la matrícula: " << result_case_2.second.matricula << "\n";
 						}
 						else{
