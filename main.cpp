@@ -79,8 +79,17 @@ int main()
 					std::cin >> matricula;
 					std::pair<int, BiographicalData> result_case_1;
 					result_case_1 = face_recognition.caso1(&frame, shape, matricula);
+					
 					if(result_case_1.first == 1){
-					    std::cout << "La persona concuerda con la matrícula ingresada\n";
+						std::cout << "La persona concuerda con la matrícula ingresada\n";
+						cv::Mat recognized_image;
+						recognized_image = cv::imread(result_case_1.second.img, cv::IMREAD_COLOR);
+						
+						/*cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
+						cv::hconcat(frame, recognized_image, recognized_image);
+						cv::imshow("Recognized image vs Database Image",  recognized_image);
+						cv::waitKey(0);*/
+					    
 					}
 					else {
 						std::cout << "La persona NO concuerda con la matrícula ingresada\n";
@@ -101,7 +110,12 @@ int main()
 						result_case_2 = face_recognition.caso2(&frame, shape);
 
 						std::cout << "Regresó información de la función en el main" << std::endl;
-
+						cv::Mat recognized_image;
+    					recognized_image = cv::imread(result_case_2.second.img, cv::IMREAD_COLOR);
+    					cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
+    					cv::hconcat(frame, recognized_image, recognized_image);
+    					cv::imshow( "Recognized image vs Database Image",  recognized_image);
+    					cv::waitKey(0);
 						if(result_case_2.first == 1){
 							std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.name << " " << result_case_2.second.lastName << " con la matrícula: " << result_case_2.second.matricula << "\n";
 						}
