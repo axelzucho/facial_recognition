@@ -161,7 +161,7 @@ int main()
 						//Aquí se imprime el error, debe haber un loop si los datos no están correctos.
 						std::cout<<errorCase3<<std::endl;
 					}else{
-						bool result_case_3;
+						int result_case_3;
 						result_case_3 = face_recognition.enroll(frame, shape, bio);
 					}
 
