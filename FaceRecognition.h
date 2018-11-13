@@ -24,7 +24,7 @@ using std::string;
 class FaceRecognition {
 public:
     FaceRecognition(const parameters_FacDet &parameters, const string &path_to_landmark_model, const unsigned int size,
-                    const double left_eye_after, const string &path_to_descriptor_model, float threshold);
+                    const double left_eye_after, const string &path_to_descriptor_model, float threshold, int neighbor_quantity);
 
 
     // Datos es una struct que va a utilizar el equipo 4.
@@ -46,6 +46,7 @@ public:
     FaceDescriptorExtractor *face_descriptor_extactor_;
     DataBase *database_;
     float threshold_;
+    int neighbor_quantity_;
 
 };
 
