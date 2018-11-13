@@ -173,6 +173,7 @@ int main()
 					bio.mail = mail;
 					result_case_3 = face_recognition.enroll(frame, shape, bio);
 					}
+					std::cout << "La persona fue registrada\n";
 				}
         	flag = false;
 			break;
