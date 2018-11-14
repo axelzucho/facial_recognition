@@ -26,6 +26,32 @@ parameters_FacDet initialize_detection_parameters(){
 	return settings;
 }
 
+void show_case_1(const Mat& image_now, const Mat& image_db, std::string text){
+	cv::Mat frame(cv::Size(image_now.cols + image_db.cols + 100, image_now.rows + 200), image_now.type(), cv::Scalar(0));
+
+	//Frame for the image taken
+	cv::Mat image_now_frame(frame, cv::Rect(20, 20, image_now.cols, image_now.rows));
+
+	//Frame for the image in the DB
+	cv::Mat image_db_frame(frame, cv::Rect(image_now.cols + 60, 20, image_db.cols, image_db.rows));
+
+    image_now.copyTo(image_now_frame);
+    image_db.copyTo(image_db_frame);
+
+    cv::putText(frame, text, cv::Point(20, image_now.rows + 50), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+
+	cv::imshow("Output case 1", frame);
+	cv::waitKey(0);
+}
+
+void show_case_2(const Mat& image_taken, const std::vector<Mat>& images){
+    return;
+}
+
+void show_case_3(const Mat& image_taken, const BiographicalData& data_added){
+	return;
+}
+
 int main()
 {
 	parameters_FacDet settings = initialize_detection_parameters();
@@ -38,7 +64,11 @@ int main()
 
 	//path of classifiers to train algorithm
 	FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat", 0.4, 5);
-	FaceAligner face_transformer("../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3);
+
+	//Used to display the images at the end of each case
+	FaceAligner interface_face_aligner("../FaceAligner/shape_predictor_5_face_landmarks.dat", 350, 0.1);
+    Mat interface_image;
+
 
 	//Create database object
 	cv::Mat template_image;
@@ -70,6 +100,9 @@ int main()
 			switch(key_pressed)
 			{
 				case '1':
+					//Example for showing case 1, should be correctly implemented at the end when the shape is stored.
+				    //interface_face_aligner.Align(shape, frame, interface_image);
+					//show_case_1(interface_image, interface_image, "La persona fue reconocida con exito");
 				std::cout << "1";
 				cv::destroyAllWindows();
 	        	video.release();
@@ -85,7 +118,7 @@ int main()
 							std::cout << "La persona concuerda con la matrícula ingresada\n";
 							cv::Mat recognized_image;
 							recognized_image = cv::imread(result_case_1.second.img, cv::IMREAD_COLOR);
-							
+							//show_case_1(frame, recognized_image);
 							/*cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
 							cv::hconcat(frame, recognized_image, recognized_image);
 							cv::imshow("Recognized image vs Database Image",  recognized_image);
