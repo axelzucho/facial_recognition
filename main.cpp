@@ -148,10 +148,10 @@ int main()
 					if(result_case_2.first == 1){
 						cv::Mat recognized_image;
     					recognized_image = cv::imread(result_case_2.second.img, cv::IMREAD_COLOR);
-    					cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
+    					/*cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
     					cv::hconcat(frame, recognized_image, recognized_image);
     					cv::imshow( "Recognized image vs Database Image",  recognized_image);
-    					cv::waitKey(0);
+    					cv::waitKey(0);*/
 						std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.name << " " << result_case_2.second.lastName << " con la matrícula: " << result_case_2.second.matricula << "\n";
 					}
 					else{
@@ -174,6 +174,7 @@ int main()
 					{
 						string matricula, name, last_name, mail;
 						int age,result_case_3=31;
+						//Errors defined in DataBase.cpp
 						while(result_case_3!=1)
 						{
 						if(result_case_3&1)
@@ -215,6 +216,8 @@ int main()
 	        	flag = false;
 				break;
 
+				case 32:
+				case 27: 
 				case '0':
 					cv::destroyAllWindows();
 					video.release();

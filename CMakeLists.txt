@@ -8,7 +8,11 @@ project(fr)
 
 set(CMAKE_CXX_STANDARD 11)
 
+<<<<<<< HEAD
 include(/home/maupeon/Documentos/dlib-19.16/dlib/cmake)
+=======
+include(/home/rodrigo/dlib-19.15/dlib/cmake)
+>>>>>>> 2acff63487fda4cedb0f47e5e790b7bcb7fed9a9
 
 
 set(HEADERS FaceAligner/facial_extractor_tools.h FaceAligner/Aligner.h FaceAligner/FaceLandmarkDetector.h FaceAligner/FaceAligner.h FaceDescriptorExtractor/FaceDescriptorExtractor.h FaceDetection/FaceDetector_opt.h DB/DataBase.h FaceRecognition.h

@@ -1,5 +1,10 @@
 #include "DataBase.h"
 #include "opencv2/opencv.hpp"
+#define INVALID_MATRICULA -1
+#define INVALID_NAME -2
+#define INVALID_LAST_NAME -4
+#define INVALID_MAIL -8
+#define INVALID_AGE -16
 
 
 DataBase::DataBase(){
@@ -280,17 +285,17 @@ int DataBase::ValidateData(const BiographicalData *bio)
 {
     int result_case_3=0;
     if(bio->matricula.length()!=9||bio->matricula[0]!='A')
-        result_case_3+=1;
+        result_case_3+=INVALID_MATRICULA;
     if(!ValidName(bio->name))
-        result_case_3+=2;
+        result_case_3+INVALID_NAME;
     if(!ValidName(bio->lastName))
-        result_case_3+=4;
+        result_case_3+=INVALID_LAST_NAME;
     if(!ValidateMail(bio->mail))
-        result_case_3+=8;
+        result_case_3+=INVALID_MAIL;
     if(bio->age>100||bio->age<1)
-        result_case_3+=16;
-
-    return -result_case_3;
+        result_case_3+=INVALID_AGE;
+	
+    return result_case_3;
 }
 bool DataBase::ValidName(std::string word)
 {
