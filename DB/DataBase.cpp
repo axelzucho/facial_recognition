@@ -5,6 +5,7 @@
 #define INVALID_LAST_NAME -4
 #define INVALID_MAIL -8
 #define INVALID_AGE -16
+#define DUPLICATED_MATRICULA -32
 
 
 DataBase::DataBase(){
