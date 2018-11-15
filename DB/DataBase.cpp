@@ -7,7 +7,7 @@ DataBase::DataBase(){
     this->biometricFile = "../DB/biometrics.txt";
     this->nFile = "../DB/N.txt";
     this->id_matFile = "../DB/ID_mat.txt";
-    
+   
     load_N_File();
     load_ImgFolder();
     
@@ -19,6 +19,7 @@ DataBase::DataBase(){
     
         flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
     }
+    std::cout << biograData.size()<<std::endl;
 }
 
 DataBase::DataBase(string biographicalFile,string biometricFile,string nFile,string id_matFile){
