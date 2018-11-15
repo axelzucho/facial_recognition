@@ -174,6 +174,7 @@ int main()
 					{
 						string matricula, name, last_name, mail;
 						int age,result_case_3=31;
+						//Errors defined in DataBase.cpp
 						while(result_case_3!=1)
 						{
 						if(result_case_3&1)
