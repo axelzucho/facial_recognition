@@ -7,6 +7,7 @@
 #define EXTRACTOR_ERR -2
 #define DB_SEARCH_ERR -4
 #define DB_INFO_ERR -8
+#define DUPLMAT -32
 
 FaceRecognition::FaceRecognition(const parameters_FacDet &parameters, const string &path_to_landmark_model,
                                  const unsigned int size, const double left_eye_after,
@@ -126,7 +127,12 @@ std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::
 }
 
 int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData &datos) {
-  int result_enroll= database_->ValidateData(&datos);
+  int result_enroll= database_->ValidateData(&datos);;
+  bool checkMat = database_->DuplicatedMatricula(datos->matricula);
+  if(checkMat == true){
+    result_enroll += DUPLMAT;
+  }
+  
   if(result_enroll >= 0)
   {
     database_->getN();

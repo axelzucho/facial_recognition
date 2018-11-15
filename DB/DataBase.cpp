@@ -5,7 +5,6 @@
 #define INVALID_LAST_NAME -4
 #define INVALID_MAIL -8
 #define INVALID_AGE -16
-#define DUPLICATED_MATRICULA -32
 
 
 DataBase::DataBase(){
@@ -175,8 +174,20 @@ BiographicalData DataBase::getUserInfoByID(int ID){
     return biograData[ID];
 }
 
-void DataBase::saveUserDataInAFile(BiographicalData bio){
-    
+void DataBase::saveUserDataInAFile(BiographicalData bio, full_object_detection shape){
+    std::vector result;
+
+   
+
+    shape = pose_model(cimg, face);
+
+    dlib::point temPoint;
+    for (size_t i = 0; i < shape.num_parts(); i++)
+    {
+    temPoint = shape.part(i);
+    result.push_back(Point2f(temPoint.x(), temPoint.y()));
+
+    }
     int id=n;
 
     biographicalDB.open(biographicalFile,std::ios::out | std::ios::app);
@@ -282,6 +293,13 @@ BiographicalData DataBase::String_To_Structure(std::string Data_As_String)
 		Data_Struct.img=Data_Vector_String[6];
 		return Data_Struct;
 	}
+    bool DataBase::DuplicatedMatricula(string mat){
+       Mat m = getBiometricByMatricula(mat);
+       if(m.rows == 0 && m.cols ==0) {
+           return false;
+       }
+       return true;
+    }
 int DataBase::ValidateData(const BiographicalData *bio)
 {
     int result_case_3=0;
@@ -319,3 +337,5 @@ bool DataBase::ValidateMail(std::string mail)
  const std::regex pattern("(?:(?:[^<>()\\[\\].,;:\\s@\"]+(?:\\.[^<>()\\[\\].,;:\\s@\"]+)*)|\".+\")@(?:(?:[^<>()??\\[\\].,;:\\s@\"]+\\.)+[^<>()\\[\\].,;:\\s@\"]{2,})");
    return std::regex_match(mail, pattern);
 }
+
+

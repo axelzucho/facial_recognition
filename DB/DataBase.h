@@ -62,6 +62,7 @@ class DataBase {
         bool ValidName(std::string word);
         bool ValidateMail(std::string mail);
         int ValidateData(const BiographicalData* Data);
+        bool DuplicatedMatricula(string mat);
         //~DataBase();
     
 };
