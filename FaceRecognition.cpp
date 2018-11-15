@@ -60,69 +60,42 @@ std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::
     return {0, BiographicalData()};
 }
 
-std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
+std::tuple <int, BiographicalData, float> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
 
   Mat template_image;
   BiographicalData output_biographical_data;
   std::pair<Mat, Mat> output_mat;
-  float valor, distancia;
+  std::tuple <int, BiographicalData, float> return_tuple;
+  int index;
+  float distance;
   int accum_error = 0;
 
   //Alinear la imagen
-  try
-  {
-    face_aligner_->Align(shape, *image, template_image);
-    throw ALIGN_ERR;
-  }
-  catch (int e)
-  {
-    accum_error += e;
-  }
+  face_aligner_->Align(shape, *image, template_image);
 
   //Obtener los rasgos del rostro
-  try
-  {
-    template_image =  face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
-    throw EXTRACTOR_ERR;
-  }
-  catch (int e)
-  {
-    accum_error += e;
-  }
+  template_image =  face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
 
-  try
-  {
-    //Comparar con la base de datos
-    output_mat = database_->search(template_image, 1);
-    throw DB_SEARCH_ERR;
-  }
-  catch (int e)
-  {
-    accum_error += e;
-  }
+  //Comparar con la base de datos
+  output_mat = database_->search(template_image, 1);
 
-  try
-  {
-    valor = output_mat.first.at<float>(0,0);
-    distancia = output_mat.second.at<float>(0,0);
-    throw DB_INFO_ERR;
-  }
-  catch (int e)
-  {
-    accum_error += e;
-  }
+  index = output_mat.first.at<int>(0,0);
+  distance = output_mat.second.at<float>(0,0);
 
-  if(accum_error != 0)
+  std::cout << "Valor: " << index << std::endl;
+  std::cout << "Distancia: " << distance << std::endl;
+
+  if(distance < threshold_)
   {
-    return {accum_error, BiographicalData()};
+    std::get <0> (return_tuple) = 1;
+    std::get <1> (return_tuple) = database_->getUserInfoByID(index);
+    std::get <2> (return_tuple) = distance*100;
+
+    return return_tuple;
   }else{
-    if(distancia < threshold_)
-    {
-      output_biographical_data = database_->getUserInfoByID(int(valor));
-      return {1, output_biographical_data};
-    }else{
-      return {0, BiographicalData()};
-    }
+    std::get <0> (return_tuple) = 0;
+
+    return return_tuple;
   }
 }
 
@@ -133,7 +106,7 @@ int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape,
     std::cout<< "Matrícula Duplicada"<<std::endl;
     result_enroll += DUPLMAT;
   }
-  
+
   if(result_enroll >= 0)
   {
     database_->getN();

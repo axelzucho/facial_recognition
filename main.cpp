@@ -85,7 +85,7 @@ int main()
 	//Create database object
 	cv::Mat template_image;
 	dlib::full_object_detection shape;
-	
+
 	bool run_program = true;
 	while(run_program)
 	{
@@ -125,7 +125,7 @@ int main()
 						std::cin >> matricula;
 						std::pair<int, BiographicalData> result_case_1;
 						result_case_1 = face_recognition.caso1(&frame, shape, matricula);
-						
+
 						if(result_case_1.first == 1){
 							std::cout << "La persona concuerda con la matrícula ingresada\n";
 							cv::Mat recognized_image;
@@ -135,7 +135,7 @@ int main()
 							cv::hconcat(frame, recognized_image, recognized_image);
 							cv::imshow("Recognized image vs Database Image",  recognized_image);
 							cv::waitKey(0);*/
-						    
+
 						}
 						else {
 							std::cout << "La persona NO concuerda con la matrícula ingresada\n";
@@ -149,24 +149,23 @@ int main()
 				cv::destroyAllWindows();
 	        	video.release();
 	        	// Aqui se implementa caso 2
-					
+
 				if(!frame.empty())
 				{
-					std::pair<int, BiographicalData> result_case_2;
+					std::tuple <int, BiographicalData, float> result_case_2;
 					result_case_2 = face_recognition.caso2(&frame, shape);
 
 					std::cout << "Regresó información de la función en el main" << std::endl;
-					show_case_2(frame, frame);
-					
-					if(result_case_2.first == 1){
+
+					if(std::get<0> (result_case_2) == 1){
 						cv::Mat recognized_image;
-    					recognized_image = cv::imread(result_case_2.second.img, cv::IMREAD_COLOR);
-    					show_case_2(frame, recognized_image);
+    					//recognized_image = cv::imread(result_case_2.second.img, cv::IMREAD_COLOR);
+    					//show_case_2(frame, recognized_image);
     					/*cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
     					cv::hconcat(frame, recognized_image, recognized_image);
     					cv::imshow( "Recognized image vs Database Image",  recognized_image);
     					cv::waitKey(0);*/
-						std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.name << " " << result_case_2.second.lastName << " con la matrícula: " << result_case_2.second.matricula << "\n";
+						std::cout << "La persona fue reconocida en la base de datos como: " << std::get<1> (result_case_2).name << " " << std::get<1> (result_case_2).lastName << " con la matrícula: " << std::get<1>(result_case_2).matricula << "\n";
 					}
 					else{
 						std::cout << "La persona no fue reconocida\n";
@@ -175,7 +174,7 @@ int main()
 					flag = true;
 					break;
 				}
-					
+
 	        	flag = false;
 				break;
 
@@ -219,8 +218,8 @@ int main()
 						}
 						if(result_case_3&32)
 						{
-							
-						std::cout <<"La matrícula ya está registrada, intente de nuevo."<<std::endl;	
+
+						std::cout <<"La matrícula ya está registrada, intente de nuevo."<<std::endl;
 						break;
 						}
 						BiographicalData bio;
@@ -235,13 +234,13 @@ int main()
 						if(result_case_3 == 1){
 							std::cout << "La persona fue registrada\n";
 						}
-						
+
 					}
 	        	flag = false;
 				break;
 
 				case 32:
-				case 27: 
+				case 27:
 				case '0':
 					cv::destroyAllWindows();
 					video.release();
