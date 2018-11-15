@@ -43,7 +43,6 @@ class DataBase {
         //https://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exist-using-standard-c-c11-c
         inline bool existsFile (const std::string& name);//Return true if the file exists, false if not.
         void load_N_File();
-        void load_ImgFolder();
         void load_BiometricFile();
         void load_BiographicalFile();
         void load_Id_MatriculaFile();

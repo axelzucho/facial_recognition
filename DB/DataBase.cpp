@@ -4,22 +4,24 @@
 
 DataBase::DataBase(){
     this->biographicalFile= "../DB/BiographicalData.txt";
+    
     this->biometricFile = "../DB/biometrics.txt";
     this->nFile = "../DB/N.txt";
     this->id_matFile = "../DB/ID_mat.txt";
    
     load_N_File();
-    load_ImgFolder();
     
     if(existsFile(biometricFile)){
-    
+   
         load_BiometricFile();
+        
         load_BiographicalFile();
+        
         load_Id_MatriculaFile();
     
         flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
     }
-    std::cout << biograData.size()<<std::endl;
+   // std::cout << biograData[1].id<<std::endl;
 }
 
 DataBase::DataBase(string biographicalFile,string biometricFile,string nFile,string id_matFile){
@@ -30,7 +32,7 @@ DataBase::DataBase(string biographicalFile,string biometricFile,string nFile,str
 
     
     load_N_File();
-    load_ImgFolder();
+    
     
     if(existsFile(biometricFile)){
         
@@ -60,12 +62,7 @@ void DataBase::load_N_File(){
     }
 }
 
-void DataBase::load_ImgFolder(){
-    if(mkdir("../DB/Img", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0){
-        std::cout<<"Directory successfully created"<<'\n';
-        
-    }else std::cout<<"Error creating directory or the directory already exits"<<'\n';
-}
+
 
 
 void DataBase::load_BiographicalFile(){
@@ -76,12 +73,12 @@ void DataBase::load_BiographicalFile(){
     if(biographicalDB.is_open()){
         while (true) {
             std::getline(biographicalDB,line);
-            
-            biograData.push_back(String_To_Structure(line));
             if(biographicalDB.eof()){
                 break;
             }
+            biograData.push_back(String_To_Structure(line));
         }
+        
         biographicalDB.close();
     }else std::cout<<"Unable to open: "<<biographicalFile<<'\n';
 }
