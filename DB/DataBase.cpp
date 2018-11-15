@@ -77,7 +77,7 @@ void DataBase::load_BiographicalFile(){
             std::getline(biographicalDB,line);
             
             biograData.push_back(String_To_Structure(line));
-            if(!biographicalDB.eof()){
+            if(biographicalDB.eof()){
                 break;
             }
         }
