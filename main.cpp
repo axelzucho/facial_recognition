@@ -173,7 +173,7 @@ int main()
 	        	// Aqui se implementa caso 3
 					{
 						string matricula, name, last_name, mail;
-						int age,result_case_3=-63;
+						int age,result_case_3=-31;
 						//Errors defined in DataBase.cpp
 						while(result_case_3!=1)
 						{
@@ -205,7 +205,9 @@ int main()
 						}
 						if(result_case_3&32)
 						{
-						std::cout <<"La matrícula ya está registrada."<<std::endl;	
+							
+						std::cout <<"La matrícula ya está registrada, intente de nuevo."<<std::endl;	
+						break;
 						}
 						BiographicalData bio;
 						bio.matricula = matricula;
@@ -216,7 +218,10 @@ int main()
 						result_case_3 = face_recognition.enroll(frame, shape, bio);
 						std::cout << result_case_3<<std::endl;
 						}
-						std::cout << "La persona fue registrada\n";
+						if(result_case_3 == 1){
+							std::cout << "La persona fue registrada\n";
+						}
+						
 					}
 	        	flag = false;
 				break;

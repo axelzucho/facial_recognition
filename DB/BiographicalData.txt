@@ -1,0 +1,2 @@
+0,A01024162,Mauricio,Peón,cada@cds.dss,22,../DB/Img/0.jpg
+1,A01024536,Madas,asdasd,fddsf@dsf.sdfs,23,../DB/Img/1.jpg

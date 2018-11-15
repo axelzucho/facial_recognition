@@ -130,6 +130,7 @@ int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape,
   int result_enroll= database_->ValidateData(&datos);
   bool checkMat = database_->DuplicatedMatricula(datos.matricula);
   if(checkMat == true){
+    std::cout<< "Matrícula Duplicada"<<std::endl;
     result_enroll += DUPLMAT;
   }
   
