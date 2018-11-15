@@ -1,5 +1,6 @@
 #include "DataBase.h"
 #include "opencv2/opencv.hpp"
+#include <dlib/image_processing/frontal_face_detector.h>
 #define INVALID_MATRICULA -1
 #define INVALID_NAME -2
 #define INVALID_LAST_NAME -4
@@ -174,20 +175,8 @@ BiographicalData DataBase::getUserInfoByID(int ID){
     return biograData[ID];
 }
 
-void DataBase::saveUserDataInAFile(BiographicalData bio, full_object_detection shape){
-    std::vector result;
-
-   
-
-    shape = pose_model(cimg, face);
-
-    dlib::point temPoint;
-    for (size_t i = 0; i < shape.num_parts(); i++)
-    {
-    temPoint = shape.part(i);
-    result.push_back(Point2f(temPoint.x(), temPoint.y()));
-
-    }
+void DataBase::saveUserDataInAFile(BiographicalData bio){
+    
     int id=n;
 
     biographicalDB.open(biographicalFile,std::ios::out | std::ios::app);

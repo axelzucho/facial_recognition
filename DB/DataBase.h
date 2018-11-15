@@ -19,6 +19,7 @@ using std::vector;
 struct BiographicalData{
     string id,matricula,name,lastName,mail,img;
     int age;
+    std::vector<float> points;
 };
 
 struct MatriculaId{
@@ -35,6 +36,7 @@ class DataBase {
         std::fstream biographicalDB,biometricDB,N,Id_Mat;
         std::vector<MatriculaId> Id_MatriculaVector;
         std::vector<BiographicalData> biograData;
+         
        
 
     public:

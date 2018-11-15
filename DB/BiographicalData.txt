@@ -1,5 +1,0 @@
-0,A01024162,Mau,Peon,asdad@dad.ads,22,../DB/Img/0.jpg
-1,A01020725,Saul,Fdz,@.,23,../DB/Img/1.jpg
-2,A02035478,jhgjk,asd,añskjd@gsdg.cd,22,../DB/Img/2.jpg
-3,A01024595,Rodrig,Garcia,rod@mail.com,21,../DB/Img/3.jpg
-4,A01025689,csdc,dscdc,sdsfsd@sdfsd.fsd,22,../DB/Img/4.jpg

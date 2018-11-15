@@ -127,8 +127,8 @@ std::pair<int, BiographicalData> FaceRecognition::caso2(const Mat *image, dlib::
 }
 
 int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData &datos) {
-  int result_enroll= database_->ValidateData(&datos);;
-  bool checkMat = database_->DuplicatedMatricula(datos->matricula);
+  int result_enroll= database_->ValidateData(&datos);
+  bool checkMat = database_->DuplicatedMatricula(datos.matricula);
   if(checkMat == true){
     result_enroll += DUPLMAT;
   }
