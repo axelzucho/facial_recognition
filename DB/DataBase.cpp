@@ -1,24 +1,32 @@
 #include "DataBase.h"
 #include "opencv2/opencv.hpp"
+#define INVALID_MATRICULA -1
+#define INVALID_NAME -2
+#define INVALID_LAST_NAME -4
+#define INVALID_MAIL -8
+#define INVALID_AGE -16
 
 
 DataBase::DataBase(){
     this->biographicalFile= "../DB/BiographicalData.txt";
+    
     this->biometricFile = "../DB/biometrics.txt";
     this->nFile = "../DB/N.txt";
     this->id_matFile = "../DB/ID_mat.txt";
-    
+   
     load_N_File();
-    load_ImgFolder();
     
     if(existsFile(biometricFile)){
-    
+   
         load_BiometricFile();
+        
         load_BiographicalFile();
+        
         load_Id_MatriculaFile();
     
         flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
     }
+   // std::cout << biograData[1].id<<std::endl;
 }
 
 DataBase::DataBase(string biographicalFile,string biometricFile,string nFile,string id_matFile){
@@ -29,7 +37,7 @@ DataBase::DataBase(string biographicalFile,string biometricFile,string nFile,str
 
     
     load_N_File();
-    load_ImgFolder();
+    
     
     if(existsFile(biometricFile)){
         
@@ -59,12 +67,7 @@ void DataBase::load_N_File(){
     }
 }
 
-void DataBase::load_ImgFolder(){
-    if(mkdir("../DB/Img", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == 0){
-        std::cout<<"Directory successfully created"<<'\n';
-        
-    }else std::cout<<"Error creating directory or the directory already exits"<<'\n';
-}
+
 
 
 void DataBase::load_BiographicalFile(){
@@ -75,12 +78,12 @@ void DataBase::load_BiographicalFile(){
     if(biographicalDB.is_open()){
         while (true) {
             std::getline(biographicalDB,line);
-            
-            biograData.push_back(String_To_Structure(line));
             if(biographicalDB.eof()){
                 break;
             }
+            biograData.push_back(String_To_Structure(line));
         }
+        
         biographicalDB.close();
     }else std::cout<<"Unable to open: "<<biographicalFile<<'\n';
 }
@@ -282,17 +285,17 @@ int DataBase::ValidateData(const BiographicalData *bio)
 {
     int result_case_3=0;
     if(bio->matricula.length()!=9||bio->matricula[0]!='A')
-        result_case_3+=1;
+        result_case_3+=INVALID_MATRICULA;
     if(!ValidName(bio->name))
-        result_case_3+=2;
+        result_case_3+INVALID_NAME;
     if(!ValidName(bio->lastName))
-        result_case_3+=4;
+        result_case_3+=INVALID_LAST_NAME;
     if(!ValidateMail(bio->mail))
-        result_case_3+=8;
+        result_case_3+=INVALID_MAIL;
     if(bio->age>100||bio->age<1)
-        result_case_3+=16;
-
-    return -result_case_3;
+        result_case_3+=INVALID_AGE;
+	
+    return result_case_3;
 }
 bool DataBase::ValidName(std::string word)
 {
