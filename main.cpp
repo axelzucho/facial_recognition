@@ -177,27 +177,28 @@ int main()
 						//Errors defined in DataBase.cpp
 						while(result_case_3!=1)
 						{
-						if(result_case_3&(-1))
+							result_case_3*=-1;
+						if(result_case_3&1)
 						{
 						std:: cout << "Ingrese la matricula" << "\n";
 						std::cin >> matricula;
 						}
-						if(result_case_3&(-2))
+						if(result_case_3&2)
 						{
 						std:: cout << "Ingrese el nombre" << "\n";
 						std::cin >> name;
 						}
-						if(result_case_3&(-4))
+						if(result_case_3&4)
 						{
 						std:: cout << "Ingrese el apellido" << "\n";
 						std::cin >> last_name;
 						}
-						if(result_case_3&(-8))
+						if(result_case_3&8)
 						{
 						std:: cout << "Ingrese el mail" << "\n";
 						std::cin >> mail;
 						}
-						if(result_case_3&(-16))
+						if(result_case_3&16)
 						{
 						std:: cout << "Ingrese la edad" << "\n";
 						std::cin >> age;
