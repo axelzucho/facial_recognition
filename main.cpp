@@ -173,31 +173,32 @@ int main()
 	        	// Aqui se implementa caso 3
 					{
 						string matricula, name, last_name, mail;
-						int age,result_case_3=31;
+						int age,result_case_3=-31;
 						//Errors defined in DataBase.cpp
-						while(result_case_3!=3)
+						while(result_case_3!=1)
 						{
-						if(result_case_3&(1))
+							result_case_3*=-1;
+						if(result_case_3&1)
 						{
 						std:: cout << "Ingrese la matricula" << "\n";
 						std::cin >> matricula;
 						}
-						if(result_case_3&(2))
+						if(result_case_3&2)
 						{
 						std:: cout << "Ingrese el nombre" << "\n";
 						std::cin >> name;
 						}
-						if(result_case_3&(4))
+						if(result_case_3&4)
 						{
 						std:: cout << "Ingrese el apellido" << "\n";
 						std::cin >> last_name;
 						}
-						if(result_case_3&(8))
+						if(result_case_3&8)
 						{
 						std:: cout << "Ingrese el mail" << "\n";
 						std::cin >> mail;
 						}
-						if(result_case_3&(16))
+						if(result_case_3&16)
 						{
 						std:: cout << "Ingrese la edad" << "\n";
 						std::cin >> age;
