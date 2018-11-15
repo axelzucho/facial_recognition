@@ -1,2 +1,3 @@
 0,A01024162,Mauricio,Peón,cada@cds.dss,22,../DB/Img/0.jpg
 1,A01024536,Madas,asdasd,fddsf@dsf.sdfs,23,../DB/Img/1.jpg
+2,A01024595,Rodrigo,Garcia,r@mail.com,22,../DB/Img/2.jpg

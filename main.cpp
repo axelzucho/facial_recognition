@@ -28,7 +28,6 @@ parameters_FacDet initialize_detection_parameters(){
 
 void show_case_1(const Mat& image_now, const Mat& image_db, std::string text){
 	cv::Mat frame(cv::Size(image_now.cols + image_db.cols + 100, image_now.rows + 200), image_now.type(), cv::Scalar(0));
-
 	//Frame for the image taken
 	cv::Mat image_now_frame(frame, cv::Rect(20, 20, image_now.cols, image_now.rows));
 
@@ -44,8 +43,21 @@ void show_case_1(const Mat& image_now, const Mat& image_db, std::string text){
 	cv::waitKey(0);
 }
 
-void show_case_2(const Mat& image_taken, const std::vector<Mat>& images){
-    return;
+void show_case_2(cv::Mat image_taken, cv::Mat image_db){
+    cv::Mat frame(cv::Size(image_taken.cols + 250, image_taken.rows + 100), image_taken.type(), cv::Scalar(0));
+	cv::resize(image_db, image_db, cv::Size(), 0.25, 0.25, cv::INTER_CUBIC);
+	cv::resize(image_taken, image_taken, cv::Size(), 0.75, 0.75, cv::INTER_CUBIC);
+	//Frame for the image taken
+	cv::Mat image_taken_frame(frame, cv::Rect(20, 20, image_taken.cols, image_taken.rows));
+
+	//Frame for the image in the DB
+	cv::Mat image_db_frame(frame, cv::Rect(20, image_taken.rows + 30, image_db.cols, image_db.rows));
+
+    image_taken.copyTo(image_taken_frame);
+    image_db.copyTo(image_db_frame);
+	cv::putText(frame, "40%", cv::Point(20, image_taken.rows + image_db.rows + 30), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(140, 244, 66));
+    cv::imshow("Output case 2", frame);
+	cv::waitKey(0);
 }
 
 void show_case_3(const Mat& image_taken, const BiographicalData& data_added){
@@ -144,10 +156,12 @@ int main()
 					result_case_2 = face_recognition.caso2(&frame, shape);
 
 					std::cout << "Regresó información de la función en el main" << std::endl;
+					show_case_2(frame, frame);
 					
 					if(result_case_2.first == 1){
 						cv::Mat recognized_image;
     					recognized_image = cv::imread(result_case_2.second.img, cv::IMREAD_COLOR);
+    					show_case_2(frame, recognized_image);
     					/*cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
     					cv::hconcat(frame, recognized_image, recognized_image);
     					cv::imshow( "Recognized image vs Database Image",  recognized_image);
