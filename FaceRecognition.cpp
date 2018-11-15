@@ -141,7 +141,7 @@ int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape,
    res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ);
    database_->saveUserBiometricDataInAFile(res);
    database_->updateDataBase();
-    result_enroll=3;//Success
+    result_enroll=1;//Success
   }
    return result_enroll;
 }
