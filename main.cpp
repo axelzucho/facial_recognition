@@ -26,7 +26,7 @@ parameters_FacDet initialize_detection_parameters(){
 	return settings;
 }
 
-void show_case_1(const Mat& image_now, const Mat& image_db, std::string text){
+void show_case_1_match(const Mat& image_now, const Mat& image_db, const BiographicalData& data){
 	cv::Mat frame(cv::Size(image_now.cols + image_db.cols + 100, image_now.rows + 200), image_now.type(), cv::Scalar(0));
 	//Frame for the image taken
 	cv::Mat image_now_frame(frame, cv::Rect(20, 20, image_now.cols, image_now.rows));
@@ -37,10 +37,65 @@ void show_case_1(const Mat& image_now, const Mat& image_db, std::string text){
 	image_now.copyTo(image_now_frame);
 	image_db.copyTo(image_db_frame);
 
-	cv::putText(frame, text, cv::Point(20, image_now.rows + 50), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Persona verificada correctamente", cv::Point(20, image_now.rows + 40), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Nombre: " + data.name, cv::Point(20, image_now.rows + 80), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Apellido: " + data.lastName, cv::Point(20, image_now.rows + 110), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Matricula: " + data.matricula, cv::Point(20, image_now.rows + 140), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Mail: " + data.mail, cv::Point(20, image_now.rows + 170), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+
 
 	cv::imshow("Output case 1", frame);
 	cv::waitKey(0);
+}
+
+void show_case_1_no_match(const Mat& image_now, const Mat& image_db){
+	cv::Mat frame(cv::Size(image_now.cols + image_db.cols + 100, image_now.rows + 200), image_now.type(), cv::Scalar(0));
+	//Frame for the image taken
+	cv::Mat image_now_frame(frame, cv::Rect(20, 20, image_now.cols, image_now.rows));
+
+	//Frame for the image in the DB
+	cv::Mat image_db_frame(frame, cv::Rect(image_now.cols + 60, 20, image_db.cols, image_db.rows));
+
+	image_now.copyTo(image_now_frame);
+	image_db.copyTo(image_db_frame);
+
+	cv::putText(frame, "La persona NO es la misma que", cv::Point(20, image_now.rows + 80), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "la matricula ingresada", cv::Point(20, image_now.rows + 110), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+
+	cv::imshow("Output case 1", frame);
+	cv::waitKey(0);
+}
+
+void show_case_1_no_information(const Mat& image_now, const string& matricula){
+	cv::Mat frame(cv::Size(image_now.cols*2 + 100, image_now.rows + 200), image_now.type(), cv::Scalar(0));
+	//Frame for the image taken
+	cv::Mat image_now_frame(frame, cv::Rect(20, 20, image_now.cols, image_now.rows));
+
+	image_now.copyTo(image_now_frame);
+
+	cv::putText(frame, "La matricula " + matricula, cv::Point(20, image_now.rows + 80), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "NO esta registrada", cv::Point(20, image_now.rows + 110), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+
+	cv::imshow("Output case 1", frame);
+	cv::waitKey(0);
+
+}
+
+//The actual return numbers should be replaced once available
+void show_case_1(const Mat& image_taken, const string& matricula, std::pair<int, BiographicalData> result_case_1){
+	if(result_case_1.first == 1){
+		//This should be replaced with the aligned DB image once available
+		Mat image_db = image_taken.clone();
+		show_case_1_match(image_taken, image_db, result_case_1.second);
+	}
+	else if(result_case_1.first == 2){
+		//This should be replaced with the aligned DB image once available
+		Mat image_db = image_taken.clone();
+		show_case_1_no_match(image_taken, image_db);
+	}
+	else if(result_case_1.first == 3){
+		show_case_1_no_information(image_taken, matricula);
+	}
 }
 
 void show_case_2(cv::Mat image_taken, cv::Mat image_db, std::pair <int, std::vector<std::pair<BiographicalData, float>>> result_case_2){
@@ -156,6 +211,7 @@ int main()
 	bool run_program = true;
 	while(run_program)
 	{
+        cv::destroyAllWindows();
 		cv::VideoCapture video(0);
 		video.open(0);
 
@@ -193,21 +249,7 @@ int main()
 						std::string matricula = get_input_from_image(interface_image, text_to_show);
 						std::pair<int, BiographicalData> result_case_1;
 						result_case_1 = face_recognition.caso1(&frame, shape, matricula);
-
-						if(result_case_1.first == 1){
-							std::cout << "La persona concuerda con la matrícula ingresada\n";
-							cv::Mat recognized_image;
-							recognized_image = cv::imread(result_case_1.second.img, cv::IMREAD_COLOR);
-							//show_case_1(frame, recognized_image);
-							/*cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
-							cv::hconcat(frame, recognized_image, recognized_image);
-							cv::imshow("Recognized image vs Database Image",  recognized_image);
-							cv::waitKey(0);*/
-
-						}
-						else {
-							std::cout << "La persona NO concuerda con la matrícula ingresada\n";
-						}
+						show_case_1(interface_image, matricula, result_case_1);
 					}
 					flag = false;
 					break;
