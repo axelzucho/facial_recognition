@@ -60,14 +60,15 @@ std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::
     return {0, BiographicalData()};
 }
 
-std::tuple <int, BiographicalData, float> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
+std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
 
   Mat template_image;
-  BiographicalData output_biographical_data;
+  std::vector<std::pair<BiographicalData, float>> output_biographical_data;
   std::pair<Mat, Mat> output_mat;
-  std::tuple <int, BiographicalData, float> return_tuple;
+  //std::tuple <int, BiographicalData, float> return_tuple;
   int index;
   float distance;
+  std::pair <BiographicalData, float> tmp;
   int accum_error = 0;
 
   //Alinear la imagen
@@ -77,25 +78,31 @@ std::tuple <int, BiographicalData, float> FaceRecognition::caso2(const Mat *imag
   template_image =  face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
 
   //Comparar con la base de datos
-  output_mat = database_->search(template_image, 1);
+  output_mat = database_->search(template_image, neighbor_quantity_);
 
-  index = output_mat.first.at<int>(0,0);
-  distance = output_mat.second.at<float>(0,0);
-
-  std::cout << "Valor: " << index << std::endl;
-  std::cout << "Distancia: " << distance << std::endl;
-
-  if(distance < threshold_)
+  //Obtener la información de los "neighbor_quantity_" rostros más cercanos que cumplan con el threshold_
+  for(int i=0; i<neighbor_quantity_; i++)
   {
-    std::get <0> (return_tuple) = 1;
-    std::get <1> (return_tuple) = database_->getUserInfoByID(index);
-    std::get <2> (return_tuple) = distance*100;
+    index = output_mat.first.at<int>(i,0);
+    distance = output_mat.second.at<float>(i,0);
 
-    return return_tuple;
+    std::cout << "Valor: " << index << std::endl;
+    std::cout << "Distancia: " << distance << std::endl;
+
+    if(distance < threshold_)
+    {
+      tmp.first = database_->getUserInfoByID(index);
+      tmp.second = distance;
+      output_biographical_data.push_back(tmp);
+      std::cout << "Se obtuvo información, index=" << output_biographical_data.back().first.id << std::endl;
+    }
+  }
+
+  if(!output_biographical_data.empty())
+  {
+    return {1, output_biographical_data};
   }else{
-    std::get <0> (return_tuple) = 0;
-
-    return return_tuple;
+    return {0, output_biographical_data};
   }
 }
 

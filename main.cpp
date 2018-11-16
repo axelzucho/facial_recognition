@@ -152,12 +152,12 @@ int main()
 
 				if(!frame.empty())
 				{
-					std::tuple <int, BiographicalData, float> result_case_2;
+					std::pair <int, std::vector<std::pair<BiographicalData, float>>> result_case_2;
 					result_case_2 = face_recognition.caso2(&frame, shape);
 
 					std::cout << "Regresó información de la función en el main" << std::endl;
 
-					if(std::get<0> (result_case_2) == 1){
+					if(result_case_2.first == 1){
 						cv::Mat recognized_image;
     					//recognized_image = cv::imread(result_case_2.second.img, cv::IMREAD_COLOR);
     					//show_case_2(frame, recognized_image);
@@ -165,7 +165,7 @@ int main()
     					cv::hconcat(frame, recognized_image, recognized_image);
     					cv::imshow( "Recognized image vs Database Image",  recognized_image);
     					cv::waitKey(0);*/
-						std::cout << "La persona fue reconocida en la base de datos como: " << std::get<1> (result_case_2).name << " " << std::get<1> (result_case_2).lastName << " con la matrícula: " << std::get<1>(result_case_2).matricula << "\n";
+						std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.front().first.name << " " << result_case_2.second.front().first.lastName << " con la matrícula: " << result_case_2.second.front().first.matricula << "\n";
 					}
 					else{
 						std::cout << "La persona no fue reconocida\n";

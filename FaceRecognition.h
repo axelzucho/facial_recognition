@@ -33,7 +33,7 @@ public:
     std::pair<int, BiographicalData> caso1(const Mat* image, dlib::full_object_detection shape, const string& matricula);
 
     // Caso 2
-    std::tuple<int, BiographicalData, float> caso2(const Mat* image, dlib::full_object_detection shape);
+    std::pair<int, std::vector<std::pair<BiographicalData, float>>> caso2(const Mat* image, dlib::full_object_detection shape);
 
     // Caso 3
     int enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData &datos);
