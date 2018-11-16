@@ -41,13 +41,13 @@ std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::
     //guardamos la distancia euclidana entre los dos Mats que incluyen los descriptores
     float resultado_inspec = face_descriptor_extactor_->compararDescriptores(face, face_db);
     //Comparamos el resultado con el threshold para dar acceso o no
-    if(resultado_inspec == -2)//error detectado
+    if(resultado_inspec == EXTRACTOR_ERR)//error detectado
     {//en caso de que la matrícula no exista
-        return {-2, BiographicalData()};
+        return {EXTRACTOR_ERR, BiographicalData()};
     }
     else if(resultado_inspec < 0)
     {//en caso de cualquier error
-        return{-1, BiographicalData()};
+        return{ALIGN_ERR, BiographicalData()};
     }
     else if(resultado_inspec < threshold_)
     {//en caso de ser la misma persona

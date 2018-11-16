@@ -35,6 +35,7 @@ float FaceDescriptorExtractor::compararDescriptores(cv::Mat &rostroReal, cv::Mat
     int rows2 = rostroReal.rows;
     int rows = rostroBD.rows;
     int columns = rostroBD.cols;
+
     if((rows == 0 && columns ==0) || (rows2 == 0 && columns2 == 0)){//se regresa -2 si la matrícula no existe
         distanciaEuclidiana = -2;
         std::cout << distanciaEuclidiana << std::endl;
