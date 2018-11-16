@@ -43,19 +43,42 @@ void show_case_1(const Mat& image_now, const Mat& image_db, std::string text){
 	cv::waitKey(0);
 }
 
-void show_case_2(cv::Mat image_taken, cv::Mat image_db){
-    cv::Mat frame(cv::Size(image_taken.cols + 250, image_taken.rows + 100), image_taken.type(), cv::Scalar(0));
-	cv::resize(image_db, image_db, cv::Size(), 0.25, 0.25, cv::INTER_CUBIC);
+void show_case_2(cv::Mat image_taken, cv::Mat image_db, std::pair <int, std::vector<std::pair<BiographicalData, float>>> result_case_2){
+    int vector_display_size = 5;
+
+    cv::Mat frame(cv::Size(image_taken.cols + 250, image_taken.rows + 80), image_taken.type(), cv::Scalar(0));
+	//cv::resize(image_db, image_db, cv::Size(), 0.25, 0.25, cv::INTER_CUBIC);
 	cv::resize(image_taken, image_taken, cv::Size(), 0.75, 0.75, cv::INTER_CUBIC);
 	//Frame for the image taken
 	cv::Mat image_taken_frame(frame, cv::Rect(20, 20, image_taken.cols, image_taken.rows));
 
 	//Frame for the image in the DB
-	cv::Mat image_db_frame(frame, cv::Rect(20, image_taken.rows + 30, image_db.cols, image_db.rows));
+	//cv::Mat image_db_frame(frame, cv::Rect(20, image_taken.rows + 30, image_db.cols, image_db.rows));
 
     image_taken.copyTo(image_taken_frame);
-    image_db.copyTo(image_db_frame);
-	cv::putText(frame, "40%", cv::Point(20, image_taken.rows + image_db.rows + 30), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(140, 244, 66));
+    //image_db.copyTo(image_db_frame);
+	//cv::putText(frame, "40%", cv::Point(20, image_taken.rows + image_db.rows + 30), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(140, 244, 66));
+    
+    if (result_case_2.second.size() < vector_display_size)
+    {
+    	vector_display_size = result_case_2.second.size();
+    }
+
+    for (int i=0;i<vector_display_size;i++)
+    {
+    	cv::Mat recognized_image;
+    	recognized_image = cv::imread(result_case_2.second.at(i).first.img, cv::IMREAD_COLOR);
+    	cv::resize(recognized_image, image_db, cv::Size(), 0.25, 0.25, cv::INTER_CUBIC);
+    	cv::Mat image_db_frame(frame, cv::Rect(20 + 20 * i + image_db.cols * i, image_taken.rows + 30, image_db.cols, image_db.rows));
+    	image_db.copyTo(image_db_frame);
+    	cv::putText(frame, std::to_string(result_case_2.second.at(i).second), cv::Point(20 + 20 * i + image_db.cols * i, image_taken.rows + image_db.rows + 30), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(140, 244, 66));
+
+    }
+    cv::putText(frame, "Persona identificada: ", cv::Point(image_taken.cols + 40, 40), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Nombre: " + result_case_2.second.front().first.name, cv::Point(image_taken.cols + 40, 80), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Apellido: " + result_case_2.second.front().first.lastName, cv::Point(image_taken.cols + 40, 110), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Matricula: " + result_case_2.second.front().first.matricula, cv::Point(image_taken.cols + 40, 140), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Mail: " + result_case_2.second.front().first.mail, cv::Point(image_taken.cols + 40, 170), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
     cv::imshow("Output case 2", frame);
 	cv::waitKey(0);
 }
@@ -155,16 +178,10 @@ int main()
 					std::pair <int, std::vector<std::pair<BiographicalData, float>>> result_case_2;
 					result_case_2 = face_recognition.caso2(&frame, shape);
 
-					//std::cout << "Regresó información de la función en el main" << std::endl;
-
 					if(result_case_2.first == 1){
 						cv::Mat recognized_image;
-    					//recognized_image = cv::imread(result_case_2.second.img, cv::IMREAD_COLOR);
-    					//show_case_2(frame, recognized_image);
-    					/*cv::resize(frame, frame, cv::Size(150, 150), 0, 0, cv::INTER_CUBIC);
-    					cv::hconcat(frame, recognized_image, recognized_image);
-    					cv::imshow( "Recognized image vs Database Image",  recognized_image);
-    					cv::waitKey(0);*/
+    					recognized_image = cv::imread(result_case_2.second.at(0).first.img, cv::IMREAD_COLOR);
+    					show_case_2(frame, recognized_image, result_case_2);
 						std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.front().first.name << " " << result_case_2.second.front().first.lastName << " con la matrícula: " << result_case_2.second.front().first.matricula << "\n";
 					}
 					else{
