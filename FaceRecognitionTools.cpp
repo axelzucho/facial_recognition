@@ -36,7 +36,6 @@ void show_case_1_match(const Mat& image_taken, const Mat& image_db, const Biogra
 
     image_taken.copyTo(image_taken_frame);
     image_db.copyTo(image_db_frame);
-
     cv::putText(frame, "Persona verificada correctamente", cv::Point(20, image_taken.rows + 40), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
     cv::putText(frame, "Nombre: " + data.name, cv::Point(20, image_taken.rows + 80), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
     cv::putText(frame, "Apellido: " + data.lastName, cv::Point(20, image_taken.rows + 110), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
