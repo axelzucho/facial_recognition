@@ -4,3 +4,4 @@
 3,A01020725,Saul,Labra,afds@df.com,20,../DB/Img/3.jpg
 4,A01023607,Alberto,Pascal,sdaf@dc.com,21,../DB/Img/4.jpg
 5,A01339499,Lalo,Fontes,asdf@dsf.com,24,../DB/Img/5.jpg
+6,A01022875,Axel,Zuchovicki,axelzucho@gmail.com,22,../DB/Img/6.jpg
