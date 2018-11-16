@@ -185,7 +185,7 @@ void add_valid_char(std::string &text, const char char_to_add){
 string get_input_from_image(const Mat &image, string output_to_user){
     string user_input = "";
     char case_key_pressed = cv::waitKey(0);
-    while (case_key_pressed != '\n'){
+    while (case_key_pressed != '\n' && case_key_pressed != 13){
         add_valid_char(user_input, case_key_pressed);
         show_text_in_image(image, output_to_user + user_input);
         case_key_pressed = cv::waitKey(0);
