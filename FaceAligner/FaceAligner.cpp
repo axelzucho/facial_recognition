@@ -28,13 +28,10 @@ void FaceAligner::DetectAndAlign(const cv::Mat &image, const cv::Rect &face, cv:
 }
 
 void FaceAligner::Detect(const cv::Mat &image, const cv::Rect &face, dlib::full_object_detection &shape) {
-    CV_Assert(!face.empty());
-    CV_Assert(!image.empty());
     face_landmark_detector_->GetFaceLandmark(image, extractor::opencv_rect_to_dlib(face), shape);
 }
 
 void FaceAligner::Align(const dlib::full_object_detection &shape, const cv::Mat &image, cv::Mat &template_image){
-    CV_Assert(!image.empty());
     aligner_->AlignImage(shape,image,template_image);
 }
 

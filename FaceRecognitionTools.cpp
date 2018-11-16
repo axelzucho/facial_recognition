@@ -87,12 +87,12 @@ void show_case_1(const Mat& image_taken, const string& matricula, std::pair<int,
         Mat image_db = image_taken.clone();
         show_case_1_match(image_taken, image_db, result_case_1.second);
     }
-    else if(result_case_1.first == 2){
+    else if(result_case_1.first == 0){
         //This should be replaced with the aligned DB image once available
         Mat image_db = image_taken.clone();
         show_case_1_no_match(image_taken, image_db);
     }
-    else if(result_case_1.first == 3){
+    else if(result_case_1.first == -2){
         show_case_1_no_information(image_taken, matricula);
     }
 }
