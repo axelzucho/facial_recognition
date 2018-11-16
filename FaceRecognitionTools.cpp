@@ -36,7 +36,6 @@ void show_case_1_match(const Mat& image_taken, const Mat& image_db, const Biogra
 
     image_taken.copyTo(image_taken_frame);
     image_db.copyTo(image_db_frame);
-
     cv::putText(frame, "Persona verificada correctamente", cv::Point(20, image_taken.rows + 40), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
     cv::putText(frame, "Nombre: " + data.name, cv::Point(20, image_taken.rows + 80), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
     cv::putText(frame, "Apellido: " + data.lastName, cv::Point(20, image_taken.rows + 110), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
@@ -136,8 +135,19 @@ void show_case_2(cv::Mat image_taken, cv::Mat image_db, std::pair <int, std::vec
     cv::waitKey(0);
 }
 
-void show_case_3(const Mat& image_taken, const BiographicalData& data_added){
-    return;
+void show_case_3(const Mat& image_taken, const BiographicalData& result_case_3){
+    cv::Mat frame(cv::Size(image_taken.cols + 400, image_taken.rows + 80), image_taken.type(), cv::Scalar(0));
+    cv::Mat image_taken_frame(frame, cv::Rect(20, 20, image_taken.cols, image_taken.rows));
+    image_taken.copyTo(image_taken_frame);
+    cv::putText(frame, "Datos ingresados: ", cv::Point(image_taken.cols + 40, 40), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Nombre: " + result_case_3.name, cv::Point(image_taken.cols + 40, 80), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Apellido: " + result_case_3.lastName, cv::Point(image_taken.cols + 40, 110), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Matricula: " + result_case_3.matricula, cv::Point(image_taken.cols + 40, 140), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Mail: " + result_case_3.mail, cv::Point(image_taken.cols + 40, 170), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Edad: " + std::to_string(result_case_3.age), cv::Point(image_taken.cols + 40, 200), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Persona enrolada correctamente a la base de datos: ", cv::Point(20, 40 + image_taken.rows), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::imshow("Output case 3", frame);
+    cv::waitKey(0);
 }
 
 void add_options_to_image(Mat& image){
@@ -176,7 +186,7 @@ void add_valid_char(std::string &text, const char char_to_add){
 string get_input_from_image(const Mat &image, string output_to_user){
     string user_input = "";
     char case_key_pressed = cv::waitKey(0);
-    while (case_key_pressed != '\n'){
+    while (case_key_pressed != '\n' && case_key_pressed != 13){
         add_valid_char(user_input, case_key_pressed);
         show_text_in_image(image, output_to_user + user_input);
         case_key_pressed = cv::waitKey(0);

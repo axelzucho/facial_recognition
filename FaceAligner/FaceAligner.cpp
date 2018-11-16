@@ -17,6 +17,8 @@ FaceAligner::FaceAligner(const string& path_to_model, const unsigned int size, c
 }
 
 void FaceAligner::DetectAndAlign(const cv::Mat &image, const cv::Rect &face, cv::Mat& template_image){
+    CV_Assert(!face.empty());
+    CV_Assert(!image.empty());
     dlib::full_object_detection shape;
     dlib::array2d<dlib::bgr_pixel> dlib_image;
     assign_image(dlib_image, dlib::cv_image<dlib::bgr_pixel>(image));

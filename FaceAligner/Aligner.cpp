@@ -24,6 +24,7 @@ void Aligner::AlignImage(const dlib::full_object_detection &shape, const dlib::a
 }
 
 void Aligner::AlignImage(const dlib::full_object_detection &shape, const cv::Mat &image, cv::Mat &template_image) {
+    CV_Assert(!image.empty());
     dlib::array2d<dlib::bgr_pixel> dlib_image;
     assign_image(dlib_image, dlib::cv_image<dlib::bgr_pixel>(image));
 
