@@ -54,6 +54,7 @@ class DataBase {
         std::pair <Mat, Mat> search(Mat elementoaBuscar,int K);
         Mat getBiometricByMatricula(string matricula);
         BiographicalData getUserInfoByID(int ID);
+        BiographicalData getUserInfoByMatricula(string matricula);
         void saveUserDataInAFile(BiographicalData bio);
         void saveUserBiometricDataInAFile(Mat biometric);
         void saveUserImage(Mat &image);

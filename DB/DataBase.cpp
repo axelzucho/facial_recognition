@@ -175,6 +175,17 @@ BiographicalData DataBase::getUserInfoByID(int ID){
     return biograData[ID];
 }
 
+BiographicalData DataBase::getUserInfoByMatricula(string matricula){
+    BiographicalData bio;
+    
+    for(int i=0;i<Id_MatriculaVector.size();i++){
+        if(Id_MatriculaVector[i].matricula == matricula){
+            return biograData[i];
+        }
+    }
+    return bio;
+}
+
 void DataBase::saveUserDataInAFile(BiographicalData bio){
     
     int id=n;
