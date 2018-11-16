@@ -7,6 +7,9 @@ using namespace std;
 
 FaceDetector_opt::FaceDetector_opt(parameters_FacDet input)
 {
+  //pruebas
+  int x;
+
   //pass data from struct
   scaleFact = input.scaleFact;
   validNeighbors = input.validNeighbors;
@@ -16,11 +19,20 @@ FaceDetector_opt::FaceDetector_opt(parameters_FacDet input)
   //load classifiers
   CascadeClassifier tmp;
 
-  for(int i=0; i<input.classifiers_location.size(); i++)
+  if(input.classifiers_location.size()>0)
   {
-    tmp.load(input.classifiers_location[i]);
-    classifiers.push_back(tmp);
+    for(int i=0; i<input.classifiers_location.size(); i++)
+    {
+      x = tmp.load(input.classifiers_location[i]);
+      //pruebas
+      CV_Assert(x==1);
+      classifiers.push_back(tmp);
+    }
   }
+  else{
+    std::cout<<"No hay classifiers."<<std::endl;
+  }
+
 }
 
 Rect FaceDetector_opt::get_largest_face(vector<Rect> faces)
@@ -65,6 +77,14 @@ vector<Rect> FaceDetector_opt::detect_faces(Mat *img)
 
   imgProc = *img;
 
+  //prueba
+  CV_Assert(img!=NULL);
+  if(classifiers.size()==0)
+  {
+    cout<<"No hay classifiers."<<endl;
+    return faces;
+  }
+
   //Get percentage of growth
   resize_per = (opt_width/imgProc.size().width);
 
@@ -108,6 +128,16 @@ vector<Rect> FaceDetector_opt::detect_faces(Mat *img, int classifier_index)
 
   imgProc = *img;
 
+  //prueba
+  if(classifiers.size()==0)
+  {
+    cout<<"No hay classifiers."<<endl;
+    return faces;
+  }
+
+  CV_Assert(classifier_index<classifiers.size());
+  CV_Assert(img!=NULL);
+
   //Get percentage of growth
   resize_per = (opt_width/imgProc.size().width);
 
@@ -143,6 +173,9 @@ void FaceDetector_opt::show_faces(Mat *img, vector<Rect> faces)
   rectColor.push_back(0);
   rectColor.push_back(0);
 
+  //prueba
+  CV_Assert(img!=NULL);
+
   for(size_t i=0; i<faces.size(); i++)
   {
     //Drawing rectangle on image
@@ -155,7 +188,7 @@ void FaceDetector_opt::show_faces(Mat *img, vector<Rect> faces)
     rectangle(*img, pt1, pt2, Scalar(rectColor[0], rectColor[1], rectColor[2]));
   }
 
-  
+
   //Display window with image
   namedWindow("Face Detection", WINDOW_AUTOSIZE);//Generating window
   imshow("Face Detection", *img);//Showing image
@@ -171,6 +204,9 @@ void FaceDetector_opt::show_faces(Mat *img, vector<Rect> detected_faces, vector<
   rectColor.push_back(255);
   rectColor.push_back(0);
   rectColor.push_back(0);
+
+  //prueba
+  CV_Assert(img!=NULL);
 
   //Draw detected faces
   for(size_t i=0; i<detected_faces.size(); i++)
@@ -215,6 +251,9 @@ void FaceDetector_opt::show_faces(Mat *img, vector<Rect> detected_faces, vector<
   rectColor.push_back(0);
   rectColor.push_back(0);
 
+  //prueba
+  CV_Assert(img!=NULL);
+
   //Draw detected faces
   for(size_t i=0; i<detected_faces.size(); i++)
   {
@@ -254,7 +293,7 @@ void FaceDetector_opt::show_faces(Mat *img, vector<Rect> detected_faces, vector<
   imshow("Face Detection", *img);//Showing image
 
   return;
-  
+
 }
 
 vector<Rect> FaceDetector_opt::ignore_false_positives(Mat * img, vector<Rect> original_det_faces, int tolerance)
@@ -266,6 +305,9 @@ vector<Rect> FaceDetector_opt::ignore_false_positives(Mat * img, vector<Rect> or
 
   Mat local_region;
   Mat imgReceived = *img;
+
+  //pruebas
+  CV_Assert(img!=NULL);
 
   //Initialize coincidences counter with 0
   coincidence_counter.resize(original_det_faces.size(), 0);

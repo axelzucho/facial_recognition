@@ -16,6 +16,8 @@ parameters_FacDet initialize_detection_parameters(){
 	paths_to_detection_models.push_back("../FaceDetection/classifiers/haarcascade_frontalface_alt.xml");
 	paths_to_detection_models.push_back("../FaceDetection/classifiers/haarcascade_frontalface_alt2.xml");
 	paths_to_detection_models.push_back("../FaceDetection/classifiers/haarcascade_frontalface_alt_tree.xml");
+	//prueba de Error
+	//paths_to_detection_models.push_back("../FaceDetection/classifiers/x");
 
 	settings.classifiers_location = paths_to_detection_models;
 	settings.scaleFact = 1.2;
