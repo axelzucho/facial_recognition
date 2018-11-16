@@ -43,6 +43,15 @@ void show_case_1(const Mat& image_now, const Mat& image_db, std::string text){
 	cv::waitKey(0);
 }
 
+void add_options_to_image(Mat& image){
+    std::string first_line = "1. Verificar con matricula";
+    std::string second_line = "2. Reconocer";
+    std::string third_line = "3. Enrolar";
+	cv::putText(image, first_line, cv::Point(20, image.rows - 100), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255), 4);
+	cv::putText(image, second_line, cv::Point(20, image.rows - 60), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255), 4);
+	cv::putText(image, third_line, cv::Point(20, image.rows - 20), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255), 4);
+}
+
 void show_case_2(cv::Mat image_taken, cv::Mat image_db, std::pair <int, std::vector<std::pair<BiographicalData, float>>> result_case_2){
     int vector_display_size = 5;
 
@@ -119,7 +128,6 @@ int main()
 		    std::cout << "Error al intentar abrir la camara" << std::endl;
 		}
 
-		std::cout << "Ingrese el número de la operación deseada:\n1. Reconocer una persona en camara\n2. Verificar si la persona ubicada coincide con la matricula ingresada\n3. Enrolar una persona nueva" << std::endl;
 		bool flag = true;
 		while (flag)
 		{
@@ -129,6 +137,7 @@ int main()
 			real_faces = face_recognition.face_detector_->ignore_false_positives(&frame, all_faces, 2);
 			largest_face[0] = face_recognition.face_detector_->get_largest_face(real_faces);
 			Mat frame_with_rectangles = frame.clone();
+			add_options_to_image(frame_with_rectangles);
 			face_recognition.face_detector_->show_faces(&frame_with_rectangles, all_faces, real_faces, largest_face[0]);
 			face_recognition.face_aligner_->Detect(frame, largest_face[0], shape);
 			char key_pressed = cv::waitKey(1);
