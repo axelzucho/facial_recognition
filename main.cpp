@@ -26,55 +26,55 @@ parameters_FacDet initialize_detection_parameters(){
 	return settings;
 }
 
-void show_case_1_match(const Mat& image_now, const Mat& image_db, const BiographicalData& data){
-	cv::Mat frame(cv::Size(image_now.cols + image_db.cols + 100, image_now.rows + 200), image_now.type(), cv::Scalar(0));
+void show_case_1_match(const Mat& image_taken, const Mat& image_db, const BiographicalData& data){
+	cv::Mat frame(cv::Size(image_taken.cols + image_db.cols + 100, image_taken.rows + 200), image_taken.type(), cv::Scalar(0));
 	//Frame for the image taken
-	cv::Mat image_now_frame(frame, cv::Rect(20, 20, image_now.cols, image_now.rows));
+	cv::Mat image_taken_frame(frame, cv::Rect(20, 20, image_taken.cols, image_taken.rows));
 
 	//Frame for the image in the DB
-	cv::Mat image_db_frame(frame, cv::Rect(image_now.cols + 60, 20, image_db.cols, image_db.rows));
+	cv::Mat image_db_frame(frame, cv::Rect(image_taken.cols + 60, 20, image_db.cols, image_db.rows));
 
-	image_now.copyTo(image_now_frame);
+	image_taken.copyTo(image_taken_frame);
 	image_db.copyTo(image_db_frame);
 
-	cv::putText(frame, "Persona verificada correctamente", cv::Point(20, image_now.rows + 40), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
-	cv::putText(frame, "Nombre: " + data.name, cv::Point(20, image_now.rows + 80), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
-	cv::putText(frame, "Apellido: " + data.lastName, cv::Point(20, image_now.rows + 110), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
-	cv::putText(frame, "Matricula: " + data.matricula, cv::Point(20, image_now.rows + 140), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
-	cv::putText(frame, "Mail: " + data.mail, cv::Point(20, image_now.rows + 170), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Persona verificada correctamente", cv::Point(20, image_taken.rows + 40), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Nombre: " + data.name, cv::Point(20, image_taken.rows + 80), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Apellido: " + data.lastName, cv::Point(20, image_taken.rows + 110), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Matricula: " + data.matricula, cv::Point(20, image_taken.rows + 140), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "Mail: " + data.mail, cv::Point(20, image_taken.rows + 170), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
 
 
 	cv::imshow("Output case 1", frame);
 	cv::waitKey(0);
 }
 
-void show_case_1_no_match(const Mat& image_now, const Mat& image_db){
-	cv::Mat frame(cv::Size(image_now.cols + image_db.cols + 100, image_now.rows + 200), image_now.type(), cv::Scalar(0));
+void show_case_1_no_match(const Mat& image_taken, const Mat& image_db){
+	cv::Mat frame(cv::Size(image_taken.cols + image_db.cols + 100, image_taken.rows + 200), image_taken.type(), cv::Scalar(0));
 	//Frame for the image taken
-	cv::Mat image_now_frame(frame, cv::Rect(20, 20, image_now.cols, image_now.rows));
+	cv::Mat image_taken_frame(frame, cv::Rect(20, 20, image_taken.cols, image_taken.rows));
 
 	//Frame for the image in the DB
-	cv::Mat image_db_frame(frame, cv::Rect(image_now.cols + 60, 20, image_db.cols, image_db.rows));
+	cv::Mat image_db_frame(frame, cv::Rect(image_taken.cols + 60, 20, image_db.cols, image_db.rows));
 
-	image_now.copyTo(image_now_frame);
+	image_taken.copyTo(image_taken_frame);
 	image_db.copyTo(image_db_frame);
 
-	cv::putText(frame, "La persona NO es la misma que", cv::Point(20, image_now.rows + 80), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
-	cv::putText(frame, "la matricula ingresada", cv::Point(20, image_now.rows + 110), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "La persona NO es la misma que", cv::Point(20, image_taken.rows + 80), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "la matricula ingresada", cv::Point(20, image_taken.rows + 110), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
 
 	cv::imshow("Output case 1", frame);
 	cv::waitKey(0);
 }
 
-void show_case_1_no_information(const Mat& image_now, const string& matricula){
-	cv::Mat frame(cv::Size(image_now.cols*2 + 100, image_now.rows + 200), image_now.type(), cv::Scalar(0));
+void show_case_1_no_information(const Mat& image_taken, const string& matricula){
+	cv::Mat frame(cv::Size(image_taken.cols*2 + 100, image_taken.rows + 200), image_taken.type(), cv::Scalar(0));
 	//Frame for the image taken
-	cv::Mat image_now_frame(frame, cv::Rect(20, 20, image_now.cols, image_now.rows));
+	cv::Mat image_taken_frame(frame, cv::Rect(20, 20, image_taken.cols, image_taken.rows));
 
-	image_now.copyTo(image_now_frame);
+	image_taken.copyTo(image_taken_frame);
 
-	cv::putText(frame, "La matricula " + matricula, cv::Point(20, image_now.rows + 80), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
-	cv::putText(frame, "NO esta registrada", cv::Point(20, image_now.rows + 110), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "La matricula " + matricula, cv::Point(20, image_taken.rows + 80), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
+	cv::putText(frame, "NO esta registrada", cv::Point(20, image_taken.rows + 110), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255, 255, 255));
 
 	cv::imshow("Output case 1", frame);
 	cv::waitKey(0);
