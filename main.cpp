@@ -92,7 +92,7 @@ int main()
 							cv::Mat recognized_image;
 							recognized_image = cv::imread(result_case_2.second.at(0).first.img, cv::IMREAD_COLOR);
 							show_case_2(frame, recognized_image, result_case_2);
-							std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.front().first.name << " " << result_case_2.second.front().first.lastName << " con la matrícula: " << result_case_2.second.front().first.matricula << "\n";
+							//std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.front().first.name << " " << result_case_2.second.front().first.lastName << " con la matrícula: " << result_case_2.second.front().first.matricula << "\n";
 						}
 						else{
 							std::cout << "La persona no fue reconocida\n";
@@ -112,6 +112,7 @@ int main()
 					std:: cout << "Ingrese los datos a escribir" << "\n";
 					// Aqui se implementa caso 3
 					{
+						BiographicalData bio;
 						interface_face_aligner.Align(shape, frame, interface_image);
 						string matricula, name, last_name, mail, text_to_show;
 						int age,result_case_3=-31;
@@ -153,7 +154,7 @@ int main()
 								std::cout <<"La matrícula ya está registrada, intente de nuevo."<<std::endl;
 								break;
 							}
-							BiographicalData bio;
+							
 							bio.matricula = matricula;
 							bio.age = age;
 							bio.name = name;
@@ -163,7 +164,8 @@ int main()
 							std::cout << result_case_3<<std::endl;
 						}
 						if(result_case_3 == 1){
-							std::cout << "La persona fue registrada\n";
+							//std::cout << "La persona fue registrada\n";
+							show_case_3(frame, bio);
 						}
 
 					}

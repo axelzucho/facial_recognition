@@ -136,8 +136,19 @@ void show_case_2(cv::Mat image_taken, cv::Mat image_db, std::pair <int, std::vec
     cv::waitKey(0);
 }
 
-void show_case_3(const Mat& image_taken, const BiographicalData& data_added){
-    return;
+void show_case_3(const Mat& image_taken, const BiographicalData& result_case_3){
+    cv::Mat frame(cv::Size(image_taken.cols + 400, image_taken.rows + 80), image_taken.type(), cv::Scalar(0));
+    cv::Mat image_taken_frame(frame, cv::Rect(20, 20, image_taken.cols, image_taken.rows));
+    image_taken.copyTo(image_taken_frame);
+    cv::putText(frame, "Datos ingresados: ", cv::Point(image_taken.cols + 40, 40), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Nombre: " + result_case_3.name, cv::Point(image_taken.cols + 40, 80), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Apellido: " + result_case_3.lastName, cv::Point(image_taken.cols + 40, 110), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Matricula: " + result_case_3.matricula, cv::Point(image_taken.cols + 40, 140), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Mail: " + result_case_3.mail, cv::Point(image_taken.cols + 40, 170), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Edad: " + std::to_string(result_case_3.age), cv::Point(image_taken.cols + 40, 200), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::putText(frame, "Persona enrolada correctamente a la base de datos: ", cv::Point(20, 40 + image_taken.rows), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::imshow("Output case 3", frame);
+    cv::waitKey(0);
 }
 
 void add_options_to_image(Mat& image){
