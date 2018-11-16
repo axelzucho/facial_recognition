@@ -98,6 +98,8 @@ std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition
     }
   }
 
+  std::cout << "Salió del for" << std::endl;
+
   if(!output_biographical_data.empty())
   {
     return {1, output_biographical_data};
