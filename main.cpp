@@ -155,7 +155,7 @@ int main()
 					std::pair <int, std::vector<std::pair<BiographicalData, float>>> result_case_2;
 					result_case_2 = face_recognition.caso2(&frame, shape);
 
-					std::cout << "Regresó información de la función en el main" << std::endl;
+					//std::cout << "Regresó información de la función en el main" << std::endl;
 
 					if(result_case_2.first == 1){
 						cv::Mat recognized_image;

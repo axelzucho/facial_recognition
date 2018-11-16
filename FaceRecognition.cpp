@@ -86,19 +86,19 @@ std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition
     index = output_mat.first.at<int>(i,0);
     distance = output_mat.second.at<float>(i,0);
 
-    std::cout << "Valor: " << index << std::endl;
-    std::cout << "Distancia: " << distance << std::endl;
+    //std::cout << "Valor: " << index << std::endl;
+    //std::cout << "Distancia: " << distance << std::endl;
 
     if(distance < threshold_)
     {
       tmp.first = database_->getUserInfoByID(index);
       tmp.second = distance;
       output_biographical_data.push_back(tmp);
-      std::cout << "Se obtuvo información, index=" << output_biographical_data.back().first.id << std::endl;
+      //std::cout << "Se obtuvo información, index=" << output_biographical_data.back().first.id << std::endl;
     }
   }
 
-  std::cout << "Salió del for" << std::endl;
+  //std::cout << "Salió del for" << std::endl;
 
   if(!output_biographical_data.empty())
   {
