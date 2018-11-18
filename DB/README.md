@@ -69,8 +69,11 @@ The class' functions are listed below with their respective parameters listed be
 19. bool ValidName, returns true if a name contains only valid characters
    1. std::string, the name to be validated
 
-20. bool SimpleValidateMail, returns true if an email is valid
+20. bool ValidateMail, returns true if an email is valid
    1. std::string, the email
 
-21. int ValidateData, returns an error code if there are any issues with a user's biographical data (name, email, ID (matricula)
+21. bool ValidateMatricula, returns true if a matricula is valid
+   1. std::string, matricula
+
+22. int ValidateData, returns an error code if there are any issues with a user's biographical data (name, email, ID (matricula)
    1. BiographicalData*, a pointer to the BiographicalData structure containing the biographical data

@@ -10,7 +10,6 @@
 
 DataBase::DataBase(){
     this->biographicalFile= "../DB/BiographicalData.txt";
-    
     this->biometricFile = "../DB/biometrics.txt";
     this->nFile = "../DB/N.txt";
     this->id_matFile = "../DB/ID_mat.txt";
@@ -303,7 +302,7 @@ BiographicalData DataBase::String_To_Structure(std::string Data_As_String)
 int DataBase::ValidateData(const BiographicalData *bio)
 {
     int result_case_3=0;
-    if(bio->matricula.length()!=9||bio->matricula[0]!='A')
+    if(!ValidateMatricula(bio->matricula))
         result_case_3+=INVALID_MATRICULA;
     if(!ValidName(bio->name))
         result_case_3+INVALID_NAME;
@@ -334,8 +333,12 @@ bool DataBase::ValidName(std::string word)
 }	
 bool DataBase::ValidateMail(std::string mail)
 {
- const std::regex pattern("(?:(?:[^<>()\\[\\].,;:\\s@\"]+(?:\\.[^<>()\\[\\].,;:\\s@\"]+)*)|\".+\")@(?:(?:[^<>()??\\[\\].,;:\\s@\"]+\\.)+[^<>()\\[\\].,;:\\s@\"]{2,})");
-   return std::regex_match(mail, pattern);
+ const std::regex pattern_Mail("(?:(?:[^<>()\\[\\].,;:\\s@\"]+(?:\\.[^<>()\\[\\].,;:\\s@\"]+)*)|\".+\")@(?:(?:[^<>()??\\[\\].,;:\\s@\"]+\\.)+[^<>()\\[\\].,;:\\s@\"]{2,})");
+   return std::regex_match(mail, pattern_Mail);
 }
 
-
+bool DataBase::ValidateMatricula(std::string matricula)
+{
+ const std::regex pattern_Matricula("(A|L)[0-9]{8}");
+   return std::regex_match(matricula, pattern_Matricula);
+}
