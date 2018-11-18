@@ -55,6 +55,14 @@ int main()
 			face_recognition.face_detector_->show_faces(&frame_with_rectangles, all_faces, real_faces, largest_face[0]);
 			face_recognition.face_aligner_->Detect(frame, largest_face[0], shape);
 			char key_pressed = cv::waitKey(1);
+			if (key_pressed == '1' || key_pressed == '2' || key_pressed == '3'){
+			    if(!frame.empty()){
+			        show_image_confirmation(frame, shape);
+			        char confirmation_option = cv::waitKey(0);
+			        cv::destroyAllWindows();
+			        if (confirmation_option != 's' && confirmation_option != 'S') continue;
+			    } else continue;
+			} else continue;
 			switch(key_pressed)
 			{
 				case '1':

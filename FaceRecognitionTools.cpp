@@ -8,6 +8,9 @@
 #include <iostream>
 #include <vector>
 
+#include <dlib/image_processing.h>
+#include <dlib/image_processing/frontal_face_detector.h>
+
 parameters_FacDet initialize_detection_parameters(){
     parameters_FacDet settings;//for detector initialization
     std::vector <string> paths_to_detection_models;
@@ -195,3 +198,13 @@ string get_input_from_image(const Mat &image, string output_to_user){
     return user_input;
 }
 
+void show_image_confirmation(const Mat &image, const dlib::full_object_detection &shape){
+    Mat image_to_show = image.clone();
+    for(int i = 0; i < shape.num_parts(); ++i){
+        cv::circle(image_to_show, cv::Point(shape.part(i).x(), shape.part(i).y()), 3, cv::Scalar(255,255,255));
+    }
+    cv::putText(image_to_show, "Estan correctamente distribuidos los puntos en la cara?", cv::Point(20, image_to_show.rows - 100), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255, 255, 255), 2);
+    cv::putText(image_to_show, "(s)Si", cv::Point(image_to_show.cols/2 - 50, image_to_show.rows - 50), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255, 255, 255), 2);
+    cv::putText(image_to_show, "(n)No", cv::Point(image_to_show.cols/2  + 50, image_to_show.rows - 50), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(255, 255, 255), 2);
+    cv::imshow("Confirmation", image_to_show);
+}
