@@ -29,6 +29,8 @@ FaceRecognition::~FaceRecognition() {
 
 std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::full_object_detection shape,
                                                          const string &matricula) {
+
+    BiographicalData datos;
     cv::Mat template_image;//aquí se guarda la imagen ya alineada
     face_aligner_->Align(shape, *image, template_image);//se alínea la imagen
     //mostramos la imagen
@@ -51,7 +53,8 @@ std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::
     }
     else if(resultado_inspec < threshold_)
     {//en caso de ser la misma persona
-        return{1, BiographicalData()};
+        datos = database_->getUserInfoByMatricula(matricula);
+        return{1, datos};
     }
     else if(resultado_inspec > threshold_)
     {//en caso de que no sea la misma persona guardada en la base de datos

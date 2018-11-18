@@ -20,7 +20,7 @@ int main()
 	largest_face.resize(1);
 
 	//path of classifiers to train algorithm
-	FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat", 0.4, 5);
+	FaceRecognition face_recognition (settings, "../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.3, "../FaceDescriptorExtractor/dlib_face_recognition_resnet_model_v1.dat", 0.5, 5);
 
 	//Used to display the images at the end of each case
 	FaceAligner interface_face_aligner("../FaceAligner/shape_predictor_5_face_landmarks.dat", 350, 0.1);
