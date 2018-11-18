@@ -59,6 +59,7 @@ int main() {
             char key_pressed = cv::waitKey(1);
             if (key_pressed == '1' || key_pressed == '2' || key_pressed == '3') {
                 if (!frame.empty()) {
+                    cv::destroyAllWindows();
                     show_image_confirmation(frame, shape);
 
                     char confirmation_option = 'a';
@@ -69,7 +70,7 @@ int main() {
                     cv::destroyAllWindows();
                     if (confirmation_option != 's' && confirmation_option != 'S') continue;
                 } else continue;
-            } else continue;
+            }
 
             switch (key_pressed) {
                 case '1':
@@ -179,8 +180,6 @@ int main() {
                     flag = false;
                     break;
 
-                case 32:
-                case 27:
                 case '0':
                     cv::destroyAllWindows();
                     video.release();
