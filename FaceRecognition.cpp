@@ -75,7 +75,7 @@ std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition
   int accum_error = 0;
 
   //debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  std::cout << "neighbor_quantity=" << neighbor_quantity_ << std::endl;
+  //std::cout << "neighbor_quantity=" << neighbor_quantity_ << std::endl;
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   //Alinear la imagen
@@ -94,8 +94,8 @@ std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition
     distance = output_mat.second.at<float>(i,0);
 
     //debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    std::cout << "Valor: " << index << std::endl;
-    std::cout << "Distancia: " << distance << std::endl;
+    //std::cout << "Valor: " << index << std::endl;
+    //std::cout << "Distancia: " << distance << std::endl;
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     tmp.first = database_->getUserInfoByID(index);
@@ -103,7 +103,7 @@ std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition
     output_biographical_data.push_back(tmp);
 
     //debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    std::cout << "Se obtuvo información, index=" << output_biographical_data.back().first.id << std::endl;
+    //std::cout << "Se obtuvo información, index=" << output_biographical_data.back().first.id << std::endl;
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     if(distance < threshold_)
@@ -113,7 +113,7 @@ std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition
   }
 
   //debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  std::cout << "Salió del for" << std::endl;
+  //std::cout << "Salió del for" << std::endl;
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

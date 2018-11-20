@@ -104,7 +104,7 @@ int main() {
                         result_case_2 = face_recognition.caso2(&frame, shape);
 
 												//debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-												std::cout << "Aplicó la función" << std::endl;
+												//std::cout << "Aplicó la función" << std::endl;
 												//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
                         if (result_case_2.first == 1) {
