@@ -168,7 +168,9 @@ bool DataBase::load_Id_MatriculaFile(){
  Mat DataBase::getRow(int num){
     return queries.row(num);
  }
- 
+ Mat DataBase::getBiometricByID(int ID){
+   return descriptores.row(ID);
+}
 
  std::pair <Mat, Mat> DataBase::search(Mat elementoaBuscar,int K){
     std::pair <Mat, Mat> PAIR1 ; 
@@ -177,7 +179,13 @@ bool DataBase::load_Id_MatriculaFile(){
     flann_index->knnSearch(elementoaBuscar,indices,dists,K);
     printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
     PAIR1.first = indices.clone();
-    PAIR1.second = dists.clone();
+    
+    float distanciaEuclidiana = 0;
+    for(int i = 0; i < K;i++){
+        dists.at<float>(i,0) = (cv::norm(elementoaBuscar, getBiometricByID(PAIR1.first.at<int>(i,0)), cv::NORM_L2));
+    }
+     PAIR1.second = dists.clone();
+        //std::cout << distanciaEuclidiana << std::endl;
     return PAIR1; 
  }
 
@@ -195,6 +203,7 @@ Mat DataBase::getBiometricByMatricula(string matricula){
 BiographicalData DataBase::getUserInfoByID(int ID){
     return biograData[ID];
 }
+
 
 BiographicalData DataBase::getUserInfoByMatricula(string matricula){
     BiographicalData bio;

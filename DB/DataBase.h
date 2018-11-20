@@ -52,6 +52,7 @@ class DataBase {
         Mat getMatrix();
         Mat getColumn(int num);
         Mat getRow(int num);
+        Mat getBiometricByID(int ID);
         std::pair <Mat, Mat> search(Mat elementoaBuscar,int K);
         Mat getBiometricByMatricula(string matricula);
         BiographicalData getUserInfoByID(int ID);
