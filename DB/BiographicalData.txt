@@ -20,3 +20,4 @@
 19,A45645686,Rod,Gar,ofdpa@saddf.co,12,../DB/Img/19.jpg
 20,A55555555,Rod,Gar,poi@opi.op,32,../DB/Img/20.jpg
 21,A01021172,Luis,Carrasco,asdfklja@fasd.com,65,../DB/Img/21.jpg
+22,A05050505,ROD,GAR,RODRIG@GMASD.CO,98,../DB/Img/22.jpg,415,298,384,303,307,316,338,310,370,364

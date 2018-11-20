@@ -14,15 +14,15 @@ DataBase::DataBase(){
     this->nFile = "../DB/N.txt";
     this->id_matFile = "../DB/ID_mat.txt";
    
-    load_N_File();
+    CV_Assert(load_N_File());
     
     if(existsFile(biometricFile)){
    
-        load_BiometricFile();
+        CV_Assert(load_BiometricFile());
         
-        load_BiographicalFile();
+        CV_Assert(load_BiographicalFile());
         
-        load_Id_MatriculaFile();
+        CV_Assert(load_Id_MatriculaFile());
     
         flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
     }
@@ -36,14 +36,16 @@ DataBase::DataBase(string biographicalFile,string biometricFile,string nFile,str
     this->id_matFile=id_matFile;
 
     
-    load_N_File();
+    CV_Assert(load_N_File());
     
     
     if(existsFile(biometricFile)){
         
-        load_BiometricFile();
-        load_BiographicalFile();
-        load_Id_MatriculaFile();
+        CV_Assert(load_BiometricFile());
+        
+        CV_Assert(load_BiographicalFile());
+        
+        CV_Assert(load_Id_MatriculaFile());
         
         flann_index = new Index(descriptores, cv::flann::KDTreeIndexParams());
     }
@@ -55,7 +57,7 @@ inline bool DataBase::existsFile (const std::string& name) {
     
 }
 
-void DataBase::load_N_File(){
+bool DataBase::load_N_File(){
     
     if(!existsFile(nFile)){
         N.open(nFile,std::ios::out);
@@ -63,14 +65,20 @@ void DataBase::load_N_File(){
             N<<"0\n";
             std::cout<<"***Fichero N.txt creado con éxito***\n";
             N.close();
-        }else std::cout<< "Unable creating N.txt\n";
+            return true;
+        }else{
+            std::cout<< "Unable creating N.txt\n";
+            return false;
+
+        } 
     }
+    return true;
 }
 
 
 
 
-void DataBase::load_BiographicalFile(){
+bool DataBase::load_BiographicalFile(){
     
     string line;
     biographicalDB.open(biographicalFile, std::ios::in);
@@ -85,10 +93,15 @@ void DataBase::load_BiographicalFile(){
         }
         
         biographicalDB.close();
-    }else std::cout<<"Unable to open: "<<biographicalFile<<'\n';
+        return true;
+    }else{
+        std::cout<<"Unable to open: "<<biographicalFile<<'\n';
+        return false;
+
+    } 
 }
 
-void DataBase::load_BiometricFile(){
+bool DataBase::load_BiometricFile(){
    int rows = 0;
    Mat res;
     std::string line;
@@ -116,12 +129,16 @@ void DataBase::load_BiometricFile(){
         //cout<<descr<<endl;
         biometricDB.close();
         descriptores = descr.clone();
+        return true;
         
-        
-     }else std::cout<<"Unable to open: "<<biometricFile<<'\n';
+     }else{
+         std::cout<<"Unable to open: "<<biometricFile<<'\n';
+         return false;
+
+     } 
 }
 
-void DataBase::load_Id_MatriculaFile(){
+bool DataBase::load_Id_MatriculaFile(){
     MatriculaId m;
         
     Id_Mat.open(id_matFile,std::ios::in);
@@ -132,7 +149,12 @@ void DataBase::load_Id_MatriculaFile(){
           Id_MatriculaVector.push_back(m);
         }
         Id_Mat.close();
-    }else std::cout<<"Unable to open: "<<id_matFile<<'\n';
+        return true;
+    }else{
+        std::cout<<"Unable to open: "<<id_matFile<<'\n';
+        return false;
+
+    } 
 }
 
  Mat DataBase::getMatrix(){
@@ -185,7 +207,7 @@ BiographicalData DataBase::getUserInfoByMatricula(string matricula){
     return bio;
 }
 
-void DataBase::saveUserDataInAFile(BiographicalData bio){
+bool DataBase::saveUserDataInAFile(BiographicalData bio,std::vector<cv::Point2f> points){
     
     int id=n;
 
@@ -193,21 +215,41 @@ void DataBase::saveUserDataInAFile(BiographicalData bio){
     
     if(biographicalDB.is_open()){
         
-        biographicalDB<<id<<","<<bio.matricula<<","<<bio.name<<","<<bio.lastName<<","<<bio.mail<<","<<bio.age<<","<<"../DB/Img/"+std::to_string(id)+".jpg"<<"\n";
+        biographicalDB<<id<<","<<bio.matricula<<","<<bio.name<<","<<bio.lastName<<","<<bio.mail<<","<<bio.age<<","<<"../DB/Img/"+std::to_string(id)+".jpg";
+        for(int i=0; i<points.size(); i++){
+            biographicalDB<<","<<points[i].x<<","<<points[i].y;
+
+        }
+        biographicalDB<<"\n";
         biographicalDB.close();
-    }else std::cout<<"Unable to open file: "<<biographicalFile<<'\n';
+        return true;
+    }else{
+        std::cout<<"Unable to open file: "<<biographicalFile<<'\n';
+        return false;
+    } 
     
+}
+
+bool DataBase::saveId_Matricula(BiographicalData bio){
+
+    int id=n;
+
     Id_Mat.open(id_matFile,std::ios::out | std::ios::app);
     
     if(Id_Mat.is_open()){
         
         Id_Mat<<id<<" "<<bio.matricula<<"\n";
         Id_Mat.close();
-    }else std::cout<<"Unable to open file: "<<id_matFile<<'\n';
+        return true;
+    }else{
+        std::cout<<"Unable to open file: "<<id_matFile<<'\n';
+        return false;
+
+    }
     
 }
 
-void DataBase::saveUserBiometricDataInAFile(Mat biometric){
+bool DataBase::saveUserBiometricDataInAFile(Mat biometric){
     string nuevoUsuario = "";
     int id=n;
     biometricDB.open(biometricFile,std::ios::out | std::ios::app);
@@ -226,7 +268,12 @@ void DataBase::saveUserBiometricDataInAFile(Mat biometric){
         //std::cout<<nuevoUsuario<<std::endl;
         biometricDB<<nuevoUsuario<<"\n";
         biometricDB.close();
-    }else std::cout<<"Unable to open file: "<<biometricFile<<'\n';
+        return true;
+    }else{
+        std::cout<<"Unable to open file: "<<biometricFile<<'\n';
+        return false;
+
+    } 
 }
     
 void DataBase::saveUserImage(Mat &image){
@@ -239,24 +286,32 @@ void DataBase::saveUserImage(Mat &image){
     cv::imwrite(fileNameLocation, image);
 }
 
-void DataBase::getN(){
+bool DataBase::getN(){
     N.open(nFile,std::ios::in);
 
     if(N.is_open()){
         N>>n;
         N.close();
-    }else std::cout<<"Unable to open: "<<nFile<<'\n';
+        return true;
+    }else{
+        std::cout<<"Unable to open: "<<nFile<<'\n';
+        return false;
+    } 
      
 }
 
-void DataBase::updateDataBase(){
+bool DataBase::updateDataBase(){
     N.open(nFile);
     n=n+1;
     if(N.is_open()){
         //std::cout<<"n: "<<n<<std::endl;
         N<<n<<"\n";
         N.close();
-    }else std::cout<<"Error updating N.txt file\n";
+        return true;
+    }else{
+        std::cout<<"Error updating N.txt file\n";
+        return false;
+    } 
    
 }
 
@@ -290,6 +345,11 @@ BiographicalData DataBase::String_To_Structure(std::string Data_As_String)
 		Data_Struct.mail=Data_Vector_String[4];
 		Data_Struct.age=std::stoi(Data_Vector_String[5]);
 		Data_Struct.img=Data_Vector_String[6];
+
+        for(int i=7; i<Data_Vector_String.size()-2; i++){
+            Data_Struct.points.push_back(cv::Point2f(std::stof(Data_Vector_String[i]), std::stof(Data_Vector_String[i+1])));
+
+        }
 		return Data_Struct;
 	}
     bool DataBase::DuplicatedMatricula(string mat){
@@ -305,7 +365,7 @@ int DataBase::ValidateData(const BiographicalData *bio)
     if(!ValidateMatricula(bio->matricula))
         result_case_3+=INVALID_MATRICULA;
     if(!ValidName(bio->name))
-        result_case_3+INVALID_NAME;
+        result_case_3+=INVALID_NAME;
     if(!ValidName(bio->lastName))
         result_case_3+=INVALID_LAST_NAME;
     if(!ValidateMail(bio->mail))

@@ -65,14 +65,18 @@ std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::
 
 std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition::caso2(const Mat *image, dlib::full_object_detection shape) {
 
+  bool found = false;
   Mat template_image;
   std::vector<std::pair<BiographicalData, float>> output_biographical_data;
   std::pair<Mat, Mat> output_mat;
-  //std::tuple <int, BiographicalData, float> return_tuple;
   int index;
   float distance;
   std::pair <BiographicalData, float> tmp;
   int accum_error = 0;
+
+  //debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  //std::cout << "neighbor_quantity=" << neighbor_quantity_ << std::endl;
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   //Alinear la imagen
   face_aligner_->Align(shape, *image, template_image);
@@ -89,26 +93,31 @@ std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition
     index = output_mat.first.at<int>(i,0);
     distance = output_mat.second.at<float>(i,0);
 
+    //debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //std::cout << "Valor: " << index << std::endl;
     //std::cout << "Distancia: " << distance << std::endl;
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    tmp.first = database_->getUserInfoByID(index);
+    tmp.second = distance;
+    output_biographical_data.push_back(tmp);
+
+    //debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    //std::cout << "Se obtuvo información, index=" << output_biographical_data.back().first.id << std::endl;
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     if(distance < threshold_)
     {
-      tmp.first = database_->getUserInfoByID(index);
-      tmp.second = distance;
-      output_biographical_data.push_back(tmp);
-      //std::cout << "Se obtuvo información, index=" << output_biographical_data.back().first.id << std::endl;
+      found = true;
     }
   }
 
+  //debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   //std::cout << "Salió del for" << std::endl;
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  if(!output_biographical_data.empty())
-  {
-    return {1, output_biographical_data};
-  }else{
-    return {0, output_biographical_data};
-  }
+
+  return {found, output_biographical_data};
 }
 
 int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape, const BiographicalData &datos) {
@@ -121,16 +130,29 @@ int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape,
 
   if(result_enroll >= 0)
   {
-    database_->getN();
-    database_->saveUserDataInAFile(datos);
+    std::vector<cv::Point2f> points;
+
+    dlib::point temPoint;
+    for (size_t i = 0; i < shape.num_parts(); i++)
+    {
+      temPoint = shape.part(i);
+
+      //std::cout<<"x: "<<temPoint.x()<<"y: "<<temPoint.y()<<std::endl;
+      points.push_back(cv::Point2f(temPoint.x(), temPoint.y()));
+
+    }
+
+    CV_Assert(database_->getN());
+    CV_Assert(database_->saveUserDataInAFile(datos,points));
+    CV_Assert(database_->saveId_Matricula(datos));
     Mat i = image.clone();
     Mat templ;
     database_->saveUserImage(i);
     face_aligner_->Align(shape,image,templ);
     Mat res;
     res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ);
-    database_->saveUserBiometricDataInAFile(res);
-    database_->updateDataBase();
+    CV_Assert(database_->saveUserBiometricDataInAFile(res));
+    CV_Assert(database_->updateDataBase());
     result_enroll=1;//Success
   }
    return result_enroll;

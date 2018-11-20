@@ -109,6 +109,15 @@ void show_case_1(const Mat &image_taken, const string &matricula, std::pair<int,
     }
 }
 
+void show_case_2E(cv::Mat image)
+{
+    cv::Mat frames(cv::Size(700, 60), image.type(), cv::Scalar(0));
+    cv::putText(frames, "Error al identificar la persona, intente de nuevo", cv::Point(20, 30),
+                cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::imshow("Output case 2 (ERROR)", frames);
+    cv::waitKey(0);
+}
+
 void show_case_2(cv::Mat image_taken, cv::Mat image_db,
                  std::pair<int, std::vector<std::pair<BiographicalData, float>>> result_case_2) {
     int vector_display_size = 5;
@@ -129,11 +138,11 @@ void show_case_2(cv::Mat image_taken, cv::Mat image_db,
     if (result_case_2.second.size() < vector_display_size) {
         vector_display_size = result_case_2.second.size();
     }
-
     for (int i = 0; i < vector_display_size; i++) {
         cv::Mat recognized_image;
         recognized_image = cv::imread(result_case_2.second.at(i).first.img, cv::IMREAD_COLOR);
-        cv::resize(recognized_image, image_db, cv::Size(), 0.25, 0.25, cv::INTER_CUBIC);
+
+        cv::resize(recognized_image, image_db, cv::Size(), 0.20, 0.20, cv::INTER_CUBIC);
         cv::Mat image_db_frame(frame, cv::Rect(20 + 20 * i + image_db.cols * i, image_taken.rows + 30, image_db.cols,
                                                image_db.rows));
         image_db.copyTo(image_db_frame);
@@ -152,6 +161,7 @@ void show_case_2(cv::Mat image_taken, cv::Mat image_db,
     cv::putText(frame, "Mail: " + result_case_2.second.front().first.mail, cv::Point(image_taken.cols + 40, 170),
                 cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
     cv::imshow("Output case 2", frame);
+
     cv::waitKey(0);
 }
 
@@ -199,8 +209,16 @@ void show_text_in_image(const Mat &image, const std::string text) {
 
 void add_valid_char(std::string &text, const char char_to_add) {
     //std::cout << (int) char_to_add << std::endl;
-    if ((char_to_add >= 'A' && char_to_add <= 'z') || (char_to_add >= '0' && char_to_add <= '9')) {
+    if ((char_to_add >= 'A' && char_to_add <= 'Z') || (char_to_add >= '0' && char_to_add <= '9')) {
         text += char_to_add;
+        return;
+    }
+    if (char_to_add >= 'a' && char_to_add <= 'z'){
+        text += char_to_add - 32;
+        return;
+    }
+    if (char_to_add >= 'a' && char_to_add <= 'z'){
+        text += char_to_add - 32;
         return;
     }
     if (char_to_add == '@' || char_to_add == '.' || char_to_add == ' ') {
@@ -219,7 +237,10 @@ string get_input_from_image(const Mat &image, string output_to_user) {
     char case_key_pressed = cv::waitKey(0);
     while (case_key_pressed != '\n' && case_key_pressed != 13) {
         add_valid_char(user_input, case_key_pressed);
-        show_text_in_image(image, output_to_user + user_input);
+        string text_to_show = output_to_user;
+        int user_input_beg = user_input.length() >= 36 - output_to_user.length() ? user_input.length() - 36 + output_to_user.length() : 0;
+        text_to_show += user_input.substr(user_input_beg, user_input.length());
+        show_text_in_image(image, text_to_show);
         case_key_pressed = cv::waitKey(0);
     }
     cv::destroyAllWindows();
