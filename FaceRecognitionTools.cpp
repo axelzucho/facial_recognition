@@ -200,8 +200,16 @@ void show_text_in_image(const Mat &image, const std::string text) {
 
 void add_valid_char(std::string &text, const char char_to_add) {
     //std::cout << (int) char_to_add << std::endl;
-    if ((char_to_add >= 'A' && char_to_add <= 'z') || (char_to_add >= '0' && char_to_add <= '9')) {
+    if ((char_to_add >= 'A' && char_to_add <= 'Z') || (char_to_add >= '0' && char_to_add <= '9')) {
         text += char_to_add;
+        return;
+    }
+    if (char_to_add >= 'a' && char_to_add <= 'z'){
+        text += char_to_add - 32;
+        return;
+    }
+    if (char_to_add >= 'a' && char_to_add <= 'z'){
+        text += char_to_add - 32;
         return;
     }
     if (char_to_add == '@' || char_to_add == '.' || char_to_add == ' ') {
@@ -220,7 +228,10 @@ string get_input_from_image(const Mat &image, string output_to_user) {
     char case_key_pressed = cv::waitKey(0);
     while (case_key_pressed != '\n' && case_key_pressed != 13) {
         add_valid_char(user_input, case_key_pressed);
-        show_text_in_image(image, output_to_user + user_input);
+        string text_to_show = output_to_user;
+        int user_input_beg = user_input.length() >= 15 ? user_input.length() - 15 : 0;
+        text_to_show += user_input.substr(user_input_beg, user_input.length());
+        show_text_in_image(image, text_to_show);
         case_key_pressed = cv::waitKey(0);
     }
     cv::destroyAllWindows();
