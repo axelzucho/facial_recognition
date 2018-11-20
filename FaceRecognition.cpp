@@ -68,11 +68,12 @@ std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition
   Mat template_image;
   std::vector<std::pair<BiographicalData, float>> output_biographical_data;
   std::pair<Mat, Mat> output_mat;
-  //std::tuple <int, BiographicalData, float> return_tuple;
   int index;
   float distance;
   std::pair <BiographicalData, float> tmp;
   int accum_error = 0;
+
+  std::cout << "neighbor_quantity=" << neighbor_quantity_ << std::endl;
 
   //Alinear la imagen
   face_aligner_->Align(shape, *image, template_image);
@@ -89,19 +90,19 @@ std::pair <int, std::vector<std::pair<BiographicalData, float>>> FaceRecognition
     index = output_mat.first.at<int>(i,0);
     distance = output_mat.second.at<float>(i,0);
 
-    //std::cout << "Valor: " << index << std::endl;
-    //std::cout << "Distancia: " << distance << std::endl;
+    std::cout << "Valor: " << index << std::endl;
+    std::cout << "Distancia: " << distance << std::endl;
 
-    if(distance < threshold_)
-    {
+    //if(distance < threshold_)
+    //{
       tmp.first = database_->getUserInfoByID(index);
       tmp.second = distance;
       output_biographical_data.push_back(tmp);
-      //std::cout << "Se obtuvo información, index=" << output_biographical_data.back().first.id << std::endl;
-    }
+      std::cout << "Se obtuvo información, index=" << output_biographical_data.back().first.id << std::endl;
+    //}
   }
 
-  //std::cout << "Salió del for" << std::endl;
+  std::cout << "Salió del for" << std::endl;
 
   if(!output_biographical_data.empty())
   {
