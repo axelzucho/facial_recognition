@@ -346,7 +346,7 @@ BiographicalData DataBase::String_To_Structure(std::string Data_As_String)
 		Data_Struct.age=std::stoi(Data_Vector_String[5]);
 		Data_Struct.img=Data_Vector_String[6];
 
-        for(int i=7; i<Data_Vector_String.size()-2; i++){
+        for(int i=7; i<Data_Vector_String.size()-1; i++){
             Data_Struct.points.push_back(cv::Point2f(std::stof(Data_Vector_String[i]), std::stof(Data_Vector_String[i+1])));
 
         }
