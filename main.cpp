@@ -103,17 +103,16 @@ int main() {
                         std::pair<int, std::vector<std::pair<BiographicalData, float>>> result_case_2;
                         result_case_2 = face_recognition.caso2(&frame, shape);
 
-												//debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-												//std::cout << "Aplicó la función" << std::endl;
-												//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
                         if (result_case_2.first == 1) {
                             cv::Mat recognized_image;
                             recognized_image = cv::imread(result_case_2.second.at(0).first.img, cv::IMREAD_COLOR);
                             show_case_2(frame, recognized_image, result_case_2);
+                            
                             //std::cout << "La persona fue reconocida en la base de datos como: " << result_case_2.second.front().first.name << " " << result_case_2.second.front().first.lastName << " con la matrícula: " << result_case_2.second.front().first.matricula << "\n";
                         } else {
-                            std::cout << "La persona no fue reconocida\n";
+                            //std::cout << "La persona no fue reconocida\n";
+                        	show_case_2E(frame);
                         }
                     } else {
                         flag = true;

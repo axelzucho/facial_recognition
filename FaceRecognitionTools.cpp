@@ -109,6 +109,15 @@ void show_case_1(const Mat &image_taken, const string &matricula, std::pair<int,
     }
 }
 
+void show_case_2E(cv::Mat image)
+{
+    cv::Mat frames(cv::Size(700, 60), image.type(), cv::Scalar(0));
+    cv::putText(frames, "Error al identificar la persona, intente de nuevo", cv::Point(20, 30),
+                cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
+    cv::imshow("Output case 2 (ERROR)", frames);
+    cv::waitKey(0);
+}
+
 void show_case_2(cv::Mat image_taken, cv::Mat image_db,
                  std::pair<int, std::vector<std::pair<BiographicalData, float>>> result_case_2) {
     int vector_display_size = 5;

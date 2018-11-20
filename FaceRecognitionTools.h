@@ -24,6 +24,9 @@ void show_case_1_no_match(const Mat &image_taken, const Mat &image_db);
 //Specific function to show the case 1 result when the ID isn't registered in the DB
 void show_case_1_no_information(const Mat &image_taken, const string &matricula);
 
+//General function to show if case 2 has an error
+void show_case_2E(cv::Mat image);
+
 //General function to show the case 2 results
 void show_case_2(cv::Mat image_taken, cv::Mat image_db,
                  std::pair<int, std::vector<std::pair<BiographicalData, float>>> result_case_2);
