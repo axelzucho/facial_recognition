@@ -144,6 +144,7 @@ int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape,
 
     CV_Assert(database_->getN());
     CV_Assert(database_->saveUserDataInAFile(datos,points));
+    CV_Assert(database_->saveId_Matricula(datos));
     Mat i = image.clone();
     Mat templ;
     database_->saveUserImage(i);
