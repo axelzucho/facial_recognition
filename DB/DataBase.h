@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <regex>
 #include "opencv2/core.hpp"
 #include "opencv2/flann/miniflann.hpp"
@@ -19,7 +20,7 @@ using std::vector;
 struct BiographicalData{
     string id,matricula,name,lastName,mail,img;
     int age;
-    std::vector<float> points;
+    std::vector<cv::Point2f> points;
 };
 
 struct MatriculaId{
@@ -55,7 +56,7 @@ class DataBase {
         Mat getBiometricByMatricula(string matricula);
         BiographicalData getUserInfoByID(int ID);
         BiographicalData getUserInfoByMatricula(string matricula);
-        bool saveUserDataInAFile(BiographicalData bio);
+        bool saveUserDataInAFile(BiographicalData bio,std::vector<cv::Point2f> points);
         bool saveId_Matricula(BiographicalData bio);
         bool saveUserBiometricDataInAFile(Mat biometric);
         void saveUserImage(Mat &image);

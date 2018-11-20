@@ -207,7 +207,7 @@ BiographicalData DataBase::getUserInfoByMatricula(string matricula){
     return bio;
 }
 
-bool DataBase::saveUserDataInAFile(BiographicalData bio){
+bool DataBase::saveUserDataInAFile(BiographicalData bio,std::vector<cv::Point2f> points){
     
     int id=n;
 
@@ -215,7 +215,12 @@ bool DataBase::saveUserDataInAFile(BiographicalData bio){
     
     if(biographicalDB.is_open()){
         
-        biographicalDB<<id<<","<<bio.matricula<<","<<bio.name<<","<<bio.lastName<<","<<bio.mail<<","<<bio.age<<","<<"../DB/Img/"+std::to_string(id)+".jpg"<<"\n";
+        biographicalDB<<id<<","<<bio.matricula<<","<<bio.name<<","<<bio.lastName<<","<<bio.mail<<","<<bio.age<<","<<"../DB/Img/"+std::to_string(id)+".jpg";
+        for(int i=0; i<points.size(); i++){
+            biographicalDB<<","<<points[i].x<<","<<points[i].y;
+
+        }
+        biographicalDB<<"\n";
         biographicalDB.close();
         return true;
     }else{
@@ -340,6 +345,11 @@ BiographicalData DataBase::String_To_Structure(std::string Data_As_String)
 		Data_Struct.mail=Data_Vector_String[4];
 		Data_Struct.age=std::stoi(Data_Vector_String[5]);
 		Data_Struct.img=Data_Vector_String[6];
+
+        for(int i=7; i<Data_Vector_String.size()-1; i++){
+            Data_Struct.points.push_back(cv::Point2f(std::stof(Data_Vector_String[i]), std::stof(Data_Vector_String[i+1])));
+
+        }
 		return Data_Struct;
 	}
     bool DataBase::DuplicatedMatricula(string mat){
@@ -355,7 +365,7 @@ int DataBase::ValidateData(const BiographicalData *bio)
     if(!ValidateMatricula(bio->matricula))
         result_case_3+=INVALID_MATRICULA;
     if(!ValidName(bio->name))
-        result_case_3+INVALID_NAME;
+        result_case_3+=INVALID_NAME;
     if(!ValidName(bio->lastName))
         result_case_3+=INVALID_LAST_NAME;
     if(!ValidateMail(bio->mail))

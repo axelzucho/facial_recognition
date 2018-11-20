@@ -121,16 +121,28 @@ int FaceRecognition::enroll(const Mat &image, dlib::full_object_detection shape,
 
   if(result_enroll >= 0)
   {
-    database_->getN();
-    database_->saveUserDataInAFile(datos);
+    std::vector<cv::Point2f> points;
+
+    dlib::point temPoint;
+    for (size_t i = 0; i < shape.num_parts(); i++)
+    {
+      temPoint = shape.part(i);
+
+      //std::cout<<"x: "<<temPoint.x()<<"y: "<<temPoint.y()<<std::endl;
+      points.push_back(cv::Point2f(temPoint.x(), temPoint.y()));
+
+    }
+
+    CV_Assert(database_->getN());
+    CV_Assert(database_->saveUserDataInAFile(datos,points));
     Mat i = image.clone();
     Mat templ;
     database_->saveUserImage(i);
     face_aligner_->Align(shape,image,templ);
     Mat res;
     res = face_descriptor_extactor_->obtenerDescriptorVectorial(templ);
-    database_->saveUserBiometricDataInAFile(res);
-    database_->updateDataBase();
+    CV_Assert(database_->saveUserBiometricDataInAFile(res));
+    CV_Assert(database_->updateDataBase());
     result_enroll=1;//Success
   }
    return result_enroll;
