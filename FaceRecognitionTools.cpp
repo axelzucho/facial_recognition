@@ -229,7 +229,7 @@ string get_input_from_image(const Mat &image, string output_to_user) {
     while (case_key_pressed != '\n' && case_key_pressed != 13) {
         add_valid_char(user_input, case_key_pressed);
         string text_to_show = output_to_user;
-        int user_input_beg = user_input.length() >= 15 ? user_input.length() - 15 : 0;
+        int user_input_beg = user_input.length() >= 36 - output_to_user.length() ? user_input.length() - 36 + output_to_user.length() : 0;
         text_to_show += user_input.substr(user_input_beg, user_input.length());
         show_text_in_image(image, text_to_show);
         case_key_pressed = cv::waitKey(0);
