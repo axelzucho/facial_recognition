@@ -14,7 +14,9 @@ void FaceLandmarkDetector::GetFaceLandmark(const dlib::array2d<dlib::bgr_pixel> 
 
 void FaceLandmarkDetector::GetFaceLandmark(const cv::Mat &image, const dlib::rectangle &face,
                                            dlib::full_object_detection &shape) {
+    CV_Assert(!image.empty());
     dlib::array2d<dlib::bgr_pixel> dlib_image;
+
     assign_image(dlib_image, dlib::cv_image<dlib::bgr_pixel>(image));
 
     GetFaceLandmark(dlib_image, face, shape);

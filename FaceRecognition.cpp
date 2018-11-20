@@ -29,6 +29,8 @@ FaceRecognition::~FaceRecognition() {
 
 std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::full_object_detection shape,
                                                          const string &matricula) {
+
+    BiographicalData datos;
     cv::Mat template_image;//aquí se guarda la imagen ya alineada
     face_aligner_->Align(shape, *image, template_image);//se alínea la imagen
     //mostramos la imagen
@@ -41,17 +43,18 @@ std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::
     //guardamos la distancia euclidana entre los dos Mats que incluyen los descriptores
     float resultado_inspec = face_descriptor_extactor_->compararDescriptores(face, face_db);
     //Comparamos el resultado con el threshold para dar acceso o no
-    if(resultado_inspec == -2)//error detectado
+    if(resultado_inspec == EXTRACTOR_ERR)//error detectado
     {//en caso de que la matrícula no exista
-        return {-2, BiographicalData()};
+        return {EXTRACTOR_ERR, BiographicalData()};
     }
     else if(resultado_inspec < 0)
     {//en caso de cualquier error
-        return{-1, BiographicalData()};
+        return{ALIGN_ERR, BiographicalData()};
     }
     else if(resultado_inspec < threshold_)
     {//en caso de ser la misma persona
-        return{1, BiographicalData()};
+        datos = database_->getUserInfoByMatricula(matricula);
+        return{1, datos};
     }
     else if(resultado_inspec > threshold_)
     {//en caso de que no sea la misma persona guardada en la base de datos
