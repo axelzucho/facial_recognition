@@ -33,9 +33,7 @@ std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::
     BiographicalData datos;
     cv::Mat template_image;//aquí se guarda la imagen ya alineada
     face_aligner_->Align(shape, *image, template_image);//se alínea la imagen
-    //mostramos la imagen
-    cv::imshow("Face", template_image);
-    cv::waitKey(0);
+
     //obtenemos los descriptores de la persona que solicita acceso
     Mat face = face_descriptor_extactor_->obtenerDescriptorVectorial(template_image);
     //obtenemos los descriptores guardados de la matrícula en la base de datos
