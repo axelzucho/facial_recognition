@@ -58,7 +58,8 @@ std::pair<int, BiographicalData> FaceRecognition::caso1(const Mat *image, dlib::
     }
     else if(resultado_inspec > threshold_)
     {//en caso de que no sea la misma persona guardada en la base de datos
-        return{0, BiographicalData()};
+        datos = database_->getUserInfoByMatricula(matricula);
+        return{0, datos};
     }
     return {0, BiographicalData()};
 }

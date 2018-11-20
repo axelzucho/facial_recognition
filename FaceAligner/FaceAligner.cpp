@@ -35,6 +35,10 @@ void FaceAligner::Align(const dlib::full_object_detection &shape, const cv::Mat 
     aligner_->AlignImage(shape,image,template_image);
 }
 
+void FaceAligner::Align(const std::vector<cv::Point2f> points, const cv::Mat &image, cv::Mat &template_image) {
+    aligner_->AlignImage(points, image, template_image);
+}
+
 FaceAligner::~FaceAligner() {
     delete(face_landmark_detector_);
     delete(aligner_);

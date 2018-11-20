@@ -96,14 +96,19 @@ void show_case_1_no_information(const Mat &image_taken, const string &matricula)
 
 //The actual return numbers should be replaced once available
 void show_case_1(const Mat &image_taken, const string &matricula, std::pair<int, BiographicalData> result_case_1) {
+    FaceAligner aligner("../FaceAligner/shape_predictor_5_face_landmarks.dat", 350, 0.1);
     if (result_case_1.first == 1) {
+        Mat image_db = cv::imread(result_case_1.second.img, cv::IMREAD_COLOR);
+        Mat image_template_db;
+        aligner.Align(result_case_1.second.points, image_db, image_template_db);
         //This should be replaced with the aligned DB image once available
-        Mat image_db = image_taken.clone();
-        show_case_1_match(image_taken, image_db, result_case_1.second);
+        show_case_1_match(image_taken, image_template_db, result_case_1.second);
     } else if (result_case_1.first == 0) {
         //This should be replaced with the aligned DB image once available
-        Mat image_db = image_taken.clone();
-        show_case_1_no_match(image_taken, image_db);
+        Mat image_db = cv::imread(result_case_1.second.img, cv::IMREAD_COLOR);
+        Mat image_template_db;
+        aligner.Align(result_case_1.second.points, image_db, image_template_db);
+        show_case_1_no_match(image_taken, image_template_db);
     } else if (result_case_1.first == -2) {
         show_case_1_no_information(image_taken, matricula);
     }
@@ -120,6 +125,7 @@ void show_case_2E(cv::Mat image)
 
 void show_case_2(cv::Mat image_taken, cv::Mat image_db,
                  std::pair<int, std::vector<std::pair<BiographicalData, float>>> result_case_2) {
+    FaceAligner aligner("../FaceAligner/shape_predictor_5_face_landmarks.dat", 150, 0.1);
     int vector_display_size = 5;
 
     cv::Mat frame(cv::Size(image_taken.cols + 250, image_taken.rows + 80), image_taken.type(), cv::Scalar(0));
@@ -138,16 +144,20 @@ void show_case_2(cv::Mat image_taken, cv::Mat image_db,
     if (result_case_2.second.size() < vector_display_size) {
         vector_display_size = result_case_2.second.size();
     }
+    std::cout << "VECTOR SIZE: " << vector_display_size << std::endl;
     for (int i = 0; i < vector_display_size; i++) {
         cv::Mat recognized_image;
         recognized_image = cv::imread(result_case_2.second.at(i).first.img, cv::IMREAD_COLOR);
 
-        cv::resize(recognized_image, image_db, cv::Size(), 0.20, 0.20, cv::INTER_CUBIC);
-        cv::Mat image_db_frame(frame, cv::Rect(20 + 20 * i + image_db.cols * i, image_taken.rows + 30, image_db.cols,
-                                               image_db.rows));
-        image_db.copyTo(image_db_frame);
+        cv::Mat image_template_db;
+        aligner.Align(result_case_2.second.at(i).first.points, recognized_image, image_template_db);
+
+        //cv::resize(recognized_image, image_db, cv::Size(), 0.20, 0.20, cv::INTER_CUBIC);
+        cv::Mat image_db_frame(frame, cv::Rect(20 + 20 * i + image_template_db.cols * i, image_taken.rows + 30, image_template_db.cols,
+                                               image_template_db.rows));
+        image_template_db.copyTo(image_db_frame);
         cv::putText(frame, std::to_string(result_case_2.second.at(i).second),
-                    cv::Point(20 + 20 * i + image_db.cols * i, image_taken.rows + image_db.rows + 30),
+                    cv::Point(20 + 20 * i + image_template_db.cols * i, image_taken.rows + image_template_db.rows + 30),
                     cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(140, 244, 66));
     }
     cv::putText(frame, "Persona identificada: ", cv::Point(image_taken.cols + 40, 40), cv::FONT_HERSHEY_PLAIN, 1.5,
