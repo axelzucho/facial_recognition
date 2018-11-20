@@ -134,11 +134,12 @@ void show_case_2(cv::Mat image_taken, cv::Mat image_db,
         cv::Mat recognized_image;
         recognized_image = cv::imread(result_case_2.second.at(i).first.img, cv::IMREAD_COLOR);
 
-        //debugging
+        //debugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         std::cout << "Se lee imagen en vector " << i << std::endl;
         std::cout << "Tamaño del vector=" << result_case_2.second.size() << std::endl;
         imshow("imagen", recognized_image);
         cv::waitKey(0);
+        //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
         cv::resize(recognized_image, image_db, cv::Size(), 0.25, 0.25, cv::INTER_CUBIC);
         cv::Mat image_db_frame(frame, cv::Rect(20 + 20 * i + image_db.cols * i, image_taken.rows + 30, image_db.cols,
@@ -160,8 +161,9 @@ void show_case_2(cv::Mat image_taken, cv::Mat image_db,
                 cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(255, 255, 255));
     cv::imshow("Output case 2", frame);
 
-    //deubugging
+    //deubugging<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     std::cout << "Se muestra interfaz" << std::endl;
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     cv::waitKey(0);
 }
